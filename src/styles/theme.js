@@ -10,5 +10,4 @@ const theme = {
   fontColor: '#000000',
   fontFamily: "'Noto Sans KR', sans-serif;",
 };
-
 export default theme;
