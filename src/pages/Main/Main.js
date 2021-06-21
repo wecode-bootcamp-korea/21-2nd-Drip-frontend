@@ -8,7 +8,6 @@ const Main = () => {
 const Wrapper = styled.div`
   height: 100vh;
   width: 100px;
-  background-color: ${(props) => props.theme.background};
 `;
 
 export default Main;
