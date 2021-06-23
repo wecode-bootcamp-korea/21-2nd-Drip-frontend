@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Map from '../../components/Map/Map';
@@ -9,7 +9,7 @@ const Detail = () => {
   const [clicked, setClicked] = useState(false);
 
   const handleClick = () => {
-    setClicked(clicked ? 0 : 1);
+    setClicked(!clicked);
   };
 
   const goBack = () => {
@@ -50,20 +50,11 @@ const Detail = () => {
         </RecommendWrapper>
       </DetailWrapper>
       <ConfirmWrapper>
-        {clicked ? (
-          <Bookmark
-            alt="bookmark"
-            src="/icon/red_bookmark.png"
-            onClick={handleClick}
-          />
-        ) : (
-          <Bookmark
-            alt="bookmark"
-            src="/icon/bookmark.png"
-            onClick={handleClick}
-          />
-        )}
-
+        <Bookmark
+          alt="bookmark"
+          src={clicked ? '/icon/red_bookmark.png' : '/icon/black_bookmark.png'}
+          onClick={handleClick}
+        />
         <ConfirmButton>참여하기</ConfirmButton>
       </ConfirmWrapper>
     </>
