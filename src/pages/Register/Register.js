@@ -1,28 +1,38 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { flexSet } from '../../styles/mixin';
+import kakaoLogin from './kakaoLogin';
 
-const Register = () => (
-  <RegisterWrapper>
-    <MessageWrapper>
-      <MessageTitle>반가워요!</MessageTitle>
-      <MessageContent>
-        지금 드립 가입하시고
-        <br />
-        쿠폰 받아가세요
-      </MessageContent>
-    </MessageWrapper>
-    <LoginButtonWrapper>
-      <KakaoLoginButton>카카오톡으로 시작</KakaoLoginButton>
-      <GoogleLoginButton>구글로 시작</GoogleLoginButton>
-      <LoginButton>로그인</LoginButton>
-    </LoginButtonWrapper>
-  </RegisterWrapper>
-);
+const Register = () => {
+  const history = useHistory();
+  return (
+    <RegisterWrapper>
+      <MessageWrapper>
+        <MessageTitle>반가워요!</MessageTitle>
+        <MessageContent>
+          지금 드립 가입하시고
+          <br />
+          쿠폰 받아가세요
+          <br />
+          로그인과 회원가입을 한번에
+          <br />⬇
+        </MessageContent>
+      </MessageWrapper>
+      <LoginButtonWrapper>
+        <KakaoLoginButton
+          alt="login"
+          src="/icon/kakao_login_medium_narrow.png"
+          onClick={() => kakaoLogin(history)}
+        ></KakaoLoginButton>
+      </LoginButtonWrapper>
+    </RegisterWrapper>
+  );
+};
 
 const RegisterWrapper = styled.section`
   width: 100vw;
-  height: 100vh;
+  height: 40vh;
   ${flexSet('column', 'center', 'center')}
 `;
 
@@ -42,36 +52,18 @@ const MessageContent = styled.span`
   color: #c7c7c7;
 `;
 
-const LoginButtonWrapper = styled.section`
-  width: 280px;
-  ${flexSet('column')};
-`;
+const LoginButtonWrapper = styled.section``;
 
-const Button = styled.button`
+const KakaoLoginButton = styled.img`
   all: unset;
   width: 100%;
-  height: 48px;
+  height: 100%;
   border-radius: 10px;
   font-size: 16px;
   font-weight: 500;
   text-align: center;
   cursor: pointer;
-
-  &:not(:first-child) {
-    margin-top: 10px;
-  }
-`;
-
-const KakaoLoginButton = styled(Button)`
-  background-color: ${props => props.theme.Yellow};
-`;
-
-const GoogleLoginButton = styled(Button)`
-  background-color: ${props => props.theme.LightGray};
-`;
-
-const LoginButton = styled(Button)`
-  border: 1px solid ${props => props.theme.White};
+  ${flexSet('row', 'center', 'center')};
 `;
 
 export default Register;
