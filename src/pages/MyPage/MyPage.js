@@ -1,11 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { flexSet } from '../../styles/mixin';
+import { commonLayOut, flexSet } from '../../styles/mixin';
+import { API } from '../../config';
+import MyPageDataList from './MyPageDataList';
 
 const MyPage = () => {
   const [reserveData, setReserveData] = useState([]);
   const [pastReserveData, setPastReserveData] = useState([]);
   const [currentClicked, setCurrentClicked] = useState('current');
+
+  useEffect(() => {
+    fetch(`${API}/orders?status=2&page=1`)
+      .then(res => res.json())
+      .then(res => setReserveData(res));
+  }, []);
+
+  useEffect(() => {
+    fetch(`${API}/orders?status=3&page=1`)
+      .then(res => res.json())
+      .then(res => setPastReserveData(res));
+  }, []);
 
   const handleClick = e => {
     const {
@@ -17,7 +31,7 @@ const MyPage = () => {
   };
 
   return (
-    <>
+    <MyPageWrapper>
       <CommonWrapper>
         <UserInfoWrapper>
           <UserImage alt="user" src="/images/user_profile_sample.jpeg" />
@@ -41,36 +55,31 @@ const MyPage = () => {
               data-name="past"
               onClick={handleClick}
               style={{
-                fontWeight: currentClicked === 'current' ? 'bold' : 400,
+                fontWeight: currentClicked === 'past' ? 'bold' : 400,
               }}
             >
               지난 예약
             </NavTab>
           </ReservationNav>
           {currentClicked === 'current' ? (
-            reserveData.length > 0 ? (
-              <ExistSection></ExistSection>
-            ) : (
-              <NotExistSection>
-                <span>사용 가능한 예약이 없어요</span>
-              </NotExistSection>
-            )
-          ) : pastReserveData.length > 0 ? (
-            <ExistSection></ExistSection>
+            <MyPageDataList data={reserveData} />
           ) : (
-            <NotExistSection>
-              <span>지난 예약이 없어요</span>
-            </NotExistSection>
+            <MyPageDataList data={pastReserveData} />
           )}
         </ReservationInfoWrapper>
       </CommonWrapper>
-    </>
+    </MyPageWrapper>
   );
 };
 
+const MyPageWrapper = styled.section`
+  ${commonLayOut}
+`;
+
 const CommonWrapper = styled.section`
   ${flexSet('column', 'flex-start', 'flex-start')}
-  padding: 30px 25px 0px;
+  width: 100%;
+  padding: 10px 0px;
 `;
 
 const UserInfoWrapper = styled.section`
@@ -92,8 +101,8 @@ const Username = styled.span`
 
 const Divideline = styled.div`
   width: 100%;
-  border: 4px solid ${props => props.theme.LightGray};
-  margin-top: 20px;
+  border: 2px solid ${props => props.theme.LightGray};
+  margin: 10px 0;
 `;
 
 const ReservationInfoWrapper = styled.section`
