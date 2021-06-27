@@ -2,61 +2,78 @@ import React, { useState, useEffect } from 'react';
 import MainCard from '../../components/MainCard/MainCard';
 import HeaderNav from '../../components/HeaderNav/HeaderNav';
 import styled from 'styled-components';
+import ACTIVITY_CATEGORY from './ActivityCategoryData';
+import CATEGORY_FILTER from './FilterData';
 import { flexSet, twoRowCardSet, commonLayOut } from '../../styles/mixin';
-
-const ACTIVITY_CATEGORY = [
-  '전체',
-  '서핑',
-  '캠핑',
-  '등산・트래킹',
-  '러닝・라이딩',
-  '도보여행',
-  '기타',
-  '수상레포츠',
-];
 
 const Activity = () => {
   const [activityDripArr, setActivityDripArr] = useState([]);
   const [isActivatedCategory, setIsActivatedCategory] = useState('전체');
+  const [queryString, setQueryString] = useState('/data/DripListData.json');
+  const [filteredqueryString, setFilteredqueryString] = useState('');
 
   useEffect(() => {
-    fetch('/data/DripListData.json')
+    fetch(queryString)
       .then(res => res.json())
       .then(res => setActivityDripArr(res.RESULT.best));
-  }, []);
+  }, [queryString]);
 
-  const handleCategory = list => {
-    console.log(list);
+  const handleCategory = (category, queryString) => {
+    setIsActivatedCategory(category);
+    setQueryString(queryString);
+  };
+
+  const handleFilter = event => {
+    const { value } = event.target;
+    setFilteredqueryString(
+      CATEGORY_FILTER.filter(list => list.value === value)[0].queryString
+    );
+
+    fetchFilter(queryString + filteredqueryString);
+  };
+
+  const fetchFilter = string => {
+    fetch(string)
+      .then(res => res.json())
+      .then(res => setActivityDripArr(res.RESULT.best));
   };
 
   return (
     <ActivityWrap>
       <HeaderNav />
       <CategoryList>
-        {ACTIVITY_CATEGORY.map((list, index) => {
+        {ACTIVITY_CATEGORY.map(list => {
           return (
             <Category
-              className={isActivatedCategory === list ? 'activeOn' : ''}
-              key={list}
-              value={index}
+              className={
+                isActivatedCategory === list.category ? 'activeOn' : ''
+              }
+              key={list.category}
+              value={list.id}
               onClick={() => {
-                handleCategory(index);
+                handleCategory(list.category, list.querString);
               }}
             >
-              {list}
+              {list.category}
             </Category>
           );
         })}
       </CategoryList>
       <List>
         <TitleWrap>
-          <Title>인기 액티비티 {activityDripArr.length}</Title>{' '}
-          <select>
-            <option value="">필터</option>
-            <option value="popular">인기순</option>
-            <option value="new">최신순</option>
-            <option value="highPrice">가격 높은순</option>
-            <option value="lowPrice">가격 낮은순</option>
+          <Title>
+            인기{' '}
+            {isActivatedCategory === '전체' ? '액티비티' : isActivatedCategory}{' '}
+            {activityDripArr.length}
+          </Title>{' '}
+          <select onChange={event => handleFilter(event)}>
+            {CATEGORY_FILTER.map(filter => {
+              return (
+                <option key={filter.queryString} value={filter.value}>
+                  {filter.name}
+                </option>
+              );
+            })}
           </select>
         </TitleWrap>
         <DripsWrap>
@@ -67,13 +84,11 @@ const Activity = () => {
                 id={list.product_id}
                 title={list.product_name}
                 listPrice={parseInt(list.product_price).toLocaleString()}
-                price={
+                price={parseInt(
                   list.discount === '1'
-                    ? parseInt(list.product_price).toLocaleString()
-                    : parseInt(
-                        list.product_price * (1 - list.discount)
-                      ).toLocaleString()
-                }
+                    ? list.product_price
+                    : list.product_price * (1 - list.discount)
+                ).toLocaleString()}
                 region={list.adress}
                 isNew={list.new_tag}
                 isHot={list.hot_tag}

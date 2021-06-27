@@ -2,67 +2,93 @@ import React, { useState, useEffect } from 'react';
 import MainCard from '../../components/MainCard/MainCard';
 import HeaderNav from '../../components/HeaderNav/HeaderNav';
 import styled from 'styled-components';
-import { commonLayOut, flexSet, twoRowCardSet } from '../../styles/mixin';
-
-const LEARNING_CATEGORY = [
-  '전체',
-  '목공예',
-  '쿠킹',
-  '자수',
-  '가죽공예',
-  '춤',
-  '뷰티',
-  '베이킹',
-  'DIY',
-];
+import LEARNING_CATEGORY from './LearningCategoryData';
+import CATEGORY_FILTER from './FilterData';
+import { flexSet, twoRowCardSet, commonLayOut } from '../../styles/mixin';
 
 const Learning = () => {
-  const [dripArr, setDripArr] = useState([]);
+  const [learningDripArr, setLearningDripArr] = useState([]);
+  const [isActivatedCategory, setIsActivatedCategory] = useState('전체');
+  const [queryString, setQueryString] = useState('/data/DripListData.json');
+  const [filteredqueryString, setFilteredqueryString] = useState('');
 
   useEffect(() => {
-    fetch('/data/DripListData.json')
+    fetch(queryString)
       .then(res => res.json())
-      .then(res => setDripArr(res.RESULT.best));
-  }, []);
+      .then(res => setLearningDripArr(res.RESULT.best));
+  }, [queryString]);
+
+  const handleCategory = (category, queryString) => {
+    setIsActivatedCategory(category);
+    setQueryString(queryString);
+  };
+
+  const handleFilter = event => {
+    const { value } = event.target;
+    setFilteredqueryString(
+      CATEGORY_FILTER.filter(list => list.value === value)[0].queryString
+    );
+
+    fetchFilter(queryString + filteredqueryString);
+  };
+
+  const fetchFilter = string => {
+    fetch(string)
+      .then(res => res.json())
+      .then(res => setLearningDripArr(res.RESULT.best));
+  };
 
   return (
-    <ActivityWrap>
+    <LearningWrap>
       <HeaderNav />
       <CategoryList>
-        {LEARNING_CATEGORY.map((list, index) => {
+        {LEARNING_CATEGORY.map(list => {
           return (
-            <Category key={index} value={index}>
-              {list}
+            <Category
+              className={
+                isActivatedCategory === list.category ? 'activeOn' : ''
+              }
+              key={list.category}
+              value={list.id}
+              onClick={() => {
+                handleCategory(list.category, list.querString);
+              }}
+            >
+              {list.category}
             </Category>
           );
         })}
       </CategoryList>
       <List>
         <TitleWrap>
-          <Title>인기 배움 {dripArr.length}</Title>{' '}
-          <select>
-            <option value="">필터</option>
-            <option value="popular">인기순</option>
-            <option value="new">최신순</option>
-            <option value="highPrice">가격 높은순</option>
-            <option value="lowPrice">가격 낮은순</option>
+          <Title>
+            인기{' '}
+            {isActivatedCategory === '전체' ? '액티비티' : isActivatedCategory}{' '}
+            {learningDripArr.length}
+          </Title>{' '}
+          <select onChange={event => handleFilter(event)}>
+            {CATEGORY_FILTER.map(filter => {
+              return (
+                <option key={filter.queryString} value={filter.value}>
+                  {filter.name}
+                </option>
+              );
+            })}
           </select>
         </TitleWrap>
         <DripsWrap>
-          {dripArr.map(list => {
+          {learningDripArr.map(list => {
             return (
               <MainCard
                 key={list.product_id}
                 id={list.product_id}
                 title={list.product_name}
                 listPrice={parseInt(list.product_price).toLocaleString()}
-                price={
+                price={parseInt(
                   list.discount === '1'
-                    ? parseInt(list.product_price).toLocaleString()
-                    : parseInt(
-                        list.product_price * (1 - list.discount)
-                      ).toLocaleString()
-                }
+                    ? list.product_price
+                    : list.product_price * (1 - list.discount)
+                ).toLocaleString()}
                 region={list.adress}
                 isNew={list.new_tag}
                 isHot={list.hot_tag}
@@ -73,22 +99,29 @@ const Learning = () => {
           })}
         </DripsWrap>
       </List>
-    </ActivityWrap>
+    </LearningWrap>
   );
 };
 
-const ActivityWrap = styled.section`
+const LearningWrap = styled.section`
   ${commonLayOut}
 `;
 
 const CategoryList = styled.ul`
-  ${flexSet('row', 'space-between', 'flex-start')}
+  display: flex;
+  justify-content: space-between;
   margin: 20px 0;
   padding: 0 10px;
 `;
 
 const Category = styled.li`
   font-size: 12px;
+  cursor: pointer;
+
+  &.activeOn {
+    color: ${props => props.theme.SignitureColor};
+    font-weight: bold;
+  }
 `;
 
 const List = styled.div`
