@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import MainCard from '../../components/MainCard/MainCard';
+import HeaderSearch from '../../components/HeaderSearch/HeaderSearch';
 import HeaderNav from '../../components/HeaderNav/HeaderNav';
+import Footer from '../../components/Footer/Footer';
 import styled from 'styled-components';
 import ACTIVITY_CATEGORY from './ActivityCategoryData';
 import CATEGORY_FILTER from './FilterData';
 import { flexSet, twoRowCardSet, commonLayOut } from '../../styles/mixin';
+import { API } from '../../config';
 
 const Activity = () => {
   const [activityDripArr, setActivityDripArr] = useState([]);
   const [isActivatedCategory, setIsActivatedCategory] = useState('전체');
-  const [queryString, setQueryString] = useState('/data/DripListData.json');
-  const [filteredqueryString, setFilteredqueryString] = useState('');
+  const [queryString, setQueryString] = useState('categoryId=1');
 
   useEffect(() => {
-    fetch(queryString)
+    fetch(`${API}/products?${queryString}`)
       .then(res => res.json())
-      .then(res => setActivityDripArr(res.RESULT.best));
+      .then(res => setActivityDripArr(res.result));
   }, [queryString]);
 
   const handleCategory = (category, queryString) => {
@@ -25,21 +27,24 @@ const Activity = () => {
 
   const handleFilter = event => {
     const { value } = event.target;
-    setFilteredqueryString(
-      CATEGORY_FILTER.filter(list => list.value === value)[0].queryString
-    );
 
-    fetchFilter(queryString + filteredqueryString);
+    const filtered = CATEGORY_FILTER.filter(list => list.value === value)[0]
+      .queryString;
+
+    fetchFilter(queryString + filtered);
   };
 
   const fetchFilter = string => {
-    fetch(string)
+    fetch(`${API}/products?${string}`)
       .then(res => res.json())
-      .then(res => setActivityDripArr(res.RESULT.best));
+      .then(res => setActivityDripArr(res.result));
   };
+
+  console.log(activityDripArr);
 
   return (
     <ActivityWrap>
+      <HeaderSearch />
       <HeaderNav />
       <CategoryList>
         {ACTIVITY_CATEGORY.map(list => {
@@ -51,7 +56,7 @@ const Activity = () => {
               key={list.category}
               value={list.id}
               onClick={() => {
-                handleCategory(list.category, list.querString);
+                handleCategory(list.category, list.queryString);
               }}
             >
               {list.category}
@@ -69,7 +74,7 @@ const Activity = () => {
           <select onChange={event => handleFilter(event)}>
             {CATEGORY_FILTER.map(filter => {
               return (
-                <option key={filter.queryString} value={filter.value}>
+                <option key={filter.id} value={filter.value}>
                   {filter.name}
                 </option>
               );
@@ -85,20 +90,20 @@ const Activity = () => {
                 title={list.product_name}
                 listPrice={parseInt(list.product_price).toLocaleString()}
                 price={parseInt(
-                  list.discount === '1'
-                    ? list.product_price
-                    : list.product_price * (1 - list.discount)
+                  list.discount !== '1' && list.discount
                 ).toLocaleString()}
                 region={list.adress}
                 isNew={list.new_tag}
                 isHot={list.hot_tag}
                 grade={list.avg_score}
                 thumbnail={list.product_image}
+                bookMarked={list.check}
               />
             );
           })}
         </DripsWrap>
       </List>
+      <Footer />
     </ActivityWrap>
   );
 };
