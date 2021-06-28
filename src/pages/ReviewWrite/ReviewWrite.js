@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import StarRatings from 'react-star-ratings';
 import { flexSet } from '../../styles/mixin';
-import { API } from '../../config';
+import { LOGIN_API } from '../../config';
 
 const ReviewWrite = () => {
   const [content, setContent] = useState('');
@@ -22,35 +23,38 @@ const ReviewWrite = () => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    const authToken = localStorage.getItem('Token');
+    const obj = {
+      product: 1,
+      content,
+      rating: star,
+      filename: reviewfiles.length && reviewfiles[0],
+    };
 
-    fetch(`${API}/reviews`, {
-      method: 'POST',
-      header: {
+    const formData = new FormData();
+    Object.entries(obj).forEach(([k, v]) => formData.append(k, v));
+
+    const authToken = localStorage.getItem('Token');
+    axios({
+      method: 'post',
+      url: `${LOGIN_API}/reviews`,
+      data: formData,
+      headers: {
         Authorization: authToken,
+        'Content-Type': 'multipart/form-data',
       },
-      body: {
-        rating: star,
-        content,
-        reviewfiles,
-      },
-    })
-      .then(res => res.json())
-      // 아직 테스트 로그를 찍어봐야함
-      .then(res => console.log(res));
+    });
   };
 
   const fileChangeHandler = e => {
     const { files } = e.target;
 
-    files.length > 10
-      ? alert('10개를 초과한 파일을 업로드할수 없습니다')
-      : setReviewFiles(files);
+    const file = files[0];
+    setReviewFiles([...reviewfiles, { uploadedFile: file }]);
   };
 
   return (
     <ReviewWrapper>
-      <ReviewForm onSubmit={handleSubmit}>
+      <ReviewForm onSubmit={handleSubmit} encType="multipart/form-data">
         <RatingWrapper>
           <div>
             <ProductImage />
@@ -86,9 +90,7 @@ const ReviewWrite = () => {
             id="input-file"
             onChange={fileChangeHandler}
             accept=".png, .jpg, .jpeg"
-            multiple
           />
-          <p>{`선택된 파일수: ${reviewfiles.length} / 10`}</p>
         </FileWrapper>
         <DivideLine />
         <SubmitWrapper>
