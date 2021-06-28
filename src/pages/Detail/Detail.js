@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import Map from '../../components/Map/Map';
 import { flexSet } from '../../styles/mixin';
+import { API } from '../../config';
+import Map from '../../components/Map/Map';
 
 const Detail = () => {
-  const location = useHistory();
   const [clicked, setClicked] = useState(false);
+  const [data, setData] = useState([]);
+  const location = useHistory();
+  const { product, recommend } = data.RESULT.Detail_info;
+
+  useEffect(() => {
+    fetch(`${API}/products`)
+      .then(res => res.json())
+      .then(res => setData(res));
+  });
 
   const handleClick = () => {
     setClicked(!clicked);
@@ -25,10 +34,10 @@ const Detail = () => {
             <Icon alt="home" src="/icon/home.png" />
           </Link>
         </IconWrapper>
-        <DetailImage alt="main content" src="/images/surfing.jpeg" />
+        <DetailImage alt="main content" src={product.product_image} />
         <ProductInfoWrapper>
-          <ProductTitle>발리에서 서핑 여행을?</ProductTitle>
-          <ProductPrice>24,000원</ProductPrice>
+          <ProductTitle>{product.product_name}</ProductTitle>
+          <ProductPrice>{product.product_price}</ProductPrice>
           <ProductLimit>유효기간: 구매일로부터 90일까지</ProductLimit>
         </ProductInfoWrapper>
         <DivideLine />
@@ -40,13 +49,20 @@ const Detail = () => {
         <DivideLine />
         <MapWrapper>
           <Title>진행 장소</Title>
-          <Map address={'경기도 용인시 수지구 용구대로 2729'} />
-          <MapAddress>경기도 용인시 수지구 용구대로 2729</MapAddress>
+          <Map address={product.address} />
+          <MapAddress>{product.address}</MapAddress>
         </MapWrapper>
         <DivideLine />
         <RecommendWrapper>
           <Title>이런 드립은 어때요?</Title>
-          <RecommendCardList></RecommendCardList>
+          <RecommendCardList>
+            {recommend.map(data => {
+              return (
+                // 임시
+                <span>{data.product_price}</span>
+              );
+            })}
+          </RecommendCardList>
         </RecommendWrapper>
       </DetailWrapper>
       <ConfirmWrapper>
