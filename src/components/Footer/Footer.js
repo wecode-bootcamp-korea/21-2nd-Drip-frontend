@@ -31,7 +31,6 @@ const Footer = () => {
 };
 
 const FooterWrap = styled.div`
-  ${commonLayOut}
   padding: 15px 0;
   background-color: ${props => props.theme.LightGray};
 `;

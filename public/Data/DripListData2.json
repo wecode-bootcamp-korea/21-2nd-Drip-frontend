@@ -1,0 +1,39 @@
+{
+    "RESULT": {
+    "best": [
+        {
+            "product_id": 35,
+            "product_name": "[Drip캠핑] 술, 고기, 이야기가 넘쳐흐르는 주지육림 캠핑",
+            "product_price": "36000.0",
+            "adress" : "가평",
+            "discount": "0.30",
+            "new_tag": "1",
+            "hot_tag": "1",
+            "avg_score": "2.85",
+            "product_image": "/images/mainCard/thumbnail.png"
+        },
+        {
+            "product_id": 7,
+            "product_name": "[Drip캠핑] 술, 고기, 이야기가 넘쳐흐르는 주지육림 캠핑",
+            "product_price": "36000.0",
+            "adress" : "서울",
+            "discount": "0",
+            "new_tag": "0",
+            "hot_tag": "0",
+            "avg_score": "3.31",
+            "product_image": "/images/mainCard/thumbnail.png"
+        },
+        {
+            "product_id": 34,
+            "product_name": "[Drip캠핑] 술, 고기, 이야기가 넘쳐흐르는 주지육림 캠핑",
+            "product_price": "36000.0",
+            "adress" : "강릉",
+            "discount": "0.10",
+            "new_tag": "1",
+            "hot_tag": "0",
+            "avg_score": "3.52",
+            "product_image": "/images/mainCard/thumbnail.png"
+        }
+    ]
+    }
+}

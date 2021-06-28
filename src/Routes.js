@@ -11,8 +11,7 @@ import Login from './pages/Login/Login';
 import MyPage from './pages/MyPage/MyPage';
 import Register from './pages/Register/Register';
 import Review from './pages/Review/Review';
-import HeaderSearch from './components/HeaderSearch/HeaderSearch';
-import Footer from './components/Footer/Footer';
+import Search from './pages/Search/Search';
 // 컴포넌트 테스트용 임포트
 import BottomNav from './components/BottomNav/BottomNav';
 import HeaderNav from './components/HeaderNav/HeaderNav';
@@ -27,7 +26,6 @@ const Routes = () => (
     <GlobalStyle />
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <HeaderSearch />
         <Switch>
           {/* 메인 페이지 */}
           <Route exact path="/main" component={Main} />
@@ -39,7 +37,7 @@ const Routes = () => (
           <Route exact path="/mypage" component={MyPage} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/review" component={Review} />
-          {/* <Route exact path="/search" component={Search} /> */}
+          <Route exact path="/search" component={Search} />
           {/* 컴포넌트 테스트용 */}
           <Route exact path="/bottomnav" component={BottomNav} />
           <Route exact path="/headernav" component={HeaderNav} />
@@ -48,7 +46,6 @@ const Routes = () => (
           <Route exact path="/reviewcard" component={ReviewCard} />
           <Route exact path="/searchResult" component={SearchResult} />
         </Switch>
-        <Footer />
       </BrowserRouter>
     </ThemeProvider>
   </>
