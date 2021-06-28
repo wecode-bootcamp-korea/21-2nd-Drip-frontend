@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import HeaderSearch from '../../components/HeaderSearch/HeaderSearch';
 import HeaderNav from '../../components/HeaderNav/HeaderNav';
 import MainCard from '../../components/MainCard/MainCard';
 import styled from 'styled-components';
@@ -19,6 +20,7 @@ const Main = () => {
 
   return (
     <MainWrap>
+      <HeaderSearch />
       <HeaderNav />
       <BigBanner>
         <BannerImage alt="banner" src="/images/main/bigbanner-1.png" />

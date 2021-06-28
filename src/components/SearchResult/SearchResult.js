@@ -1,53 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import MainCard from '../MainCard/MainCard';
+import Footer from '../Footer/Footer';
 import styled from 'styled-components';
-import { flexSet, twoRowCardSet, commonLayOut } from '../../styles/mixin';
+import { flexSet, twoRowCardSet } from '../../styles/mixin';
 
-const Search = () => {
-  const [dripArr, setDripArr] = useState([]);
-
-  useEffect(() => {
-    fetch('/data/DripListData.json')
-      .then(res => res.json())
-      .then(res => setDripArr(res.result));
-  }, []);
-
+const SearchResult = searchResultArr => {
   return (
-    <SearchWrap>
+    <SearchResultWrap>
       <TitleWrap>
-        <Title>제주 검색 결과 {dripArr.length}</Title>
-        <select>
-          <option value="">필터</option>
-          <option value="popular">인기순</option>
-          <option value="new">최신순</option>
-          <option value="highPrice">가격 높은순</option>
-          <option value="lowPrice">가격 낮은순</option>
-        </select>
+        <Title>검색 결과 {searchResultArr.length}</Title>
       </TitleWrap>
       <DripWrap>
-        {dripArr.map((list, index) => {
+        {searchResultArr.searchResultArr.map(list => {
           return (
             <MainCard
-              key={index}
-              id={index}
-              title={list.title}
-              listPrice={list.listPrice}
-              price={list.price}
-              region={list.region}
-              isNew={list.isNew}
-              isHot={list.isHot}
-              grade={list.grade}
-              thumbnail={list.thumbnail}
+              key={list.product_id}
+              id={list.product_id}
+              title={list.product_name}
+              listPrice={parseInt(list.product_price).toLocaleString()}
+              price={parseInt(
+                list.discount === '1'
+                  ? list.product_price
+                  : list.product_price * (1 - list.discount)
+              ).toLocaleString()}
+              region={list.adress}
+              isNew={list.new_tag}
+              isHot={list.hot_tag}
+              grade={list.avg_score}
+              thumbnail={list.product_image}
             />
           );
         })}
       </DripWrap>
-    </SearchWrap>
+      <Footer />
+    </SearchResultWrap>
   );
 };
 
-const SearchWrap = styled.section`
-  ${commonLayOut}
+const SearchResultWrap = styled.section`
+  position: relative;
   padding: 0 10px;
 `;
 
@@ -65,4 +56,4 @@ const DripWrap = styled.div`
   ${twoRowCardSet}
 `;
 
-export default Search;
+export default SearchResult;
