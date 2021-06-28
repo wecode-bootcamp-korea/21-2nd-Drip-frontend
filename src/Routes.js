@@ -20,6 +20,7 @@ import Modal from './components/Modal/Modal';
 import ReviewCard from './components/ReviewCard/ReviewCard';
 import SearchResult from './components/SearchResult/SearchResult';
 import theme from './styles/theme';
+import ReviewWrite from './pages/ReviewWrite/ReviewWrite';
 
 const Routes = () => (
   <>
@@ -38,6 +39,8 @@ const Routes = () => (
           <Route exact path="/register" component={Register} />
           <Route exact path="/review" component={Review} />
           <Route exact path="/search" component={Search} />
+          <Route exact path="/review-write" component={ReviewWrite} />
+          {/* <Route exact path="/search" component={Search} /> */}
           {/* 컴포넌트 테스트용 */}
           <Route exact path="/bottomnav" component={BottomNav} />
           <Route exact path="/headernav" component={HeaderNav} />
