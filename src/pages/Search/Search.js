@@ -1,18 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PopularSearch from '../../components/PopularSearch/PopularSearch';
 import EmptySearchResult from '../../components/EmptySearchResult/EmptySearchResult';
 import SearchResult from '../../components/SearchResult/SearchResult';
 import styled from 'styled-components';
 import { flexSet, commonLayOut } from '../../styles/mixin';
-import POPULAR_ARR from '../../components/PopularSearch/PopularSearchData';
+import { API } from '../../config';
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState('');
   const [isButtonOn, setIsButtonOn] = useState(false);
   const [searchResultArr, setSearchResultArr] = useState([]);
+  const [popularTermsArr, setPopularTermsArr] = useState([]);
   const [popularSearchTermsOn, setPopularSearchTermsOn] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
   const history = useHistory();
+
+  useEffect(() => {
+    fetch(`${API}/products/search?keyword=`)
+      .then(res => res.json())
+      .then(res => setPopularTermsArr(res.result.rank));
+  }, []);
 
   const handleSearchInput = event => {
     const { value } = event.target;
@@ -21,27 +29,28 @@ const Search = () => {
     setSearchValue(value);
   };
 
+  const enterSearch = event => {
+    if (searchValue === '') {
+      alert('검색어를 입력해 주세요');
+      return;
+    }
+
+    event.key === 'Enter' && searchByTerm(searchValue);
+  };
+
   const deleteValue = () => {
     setSearchValue('');
     setIsButtonOn(false);
   };
 
-  const searchPopular = terms => {
-    const filteredData = POPULAR_ARR.filter(list => list.name === terms)[0]
-      .queryString;
-
-    fetchProducts(filteredData);
-  };
-
   const searchByTerm = term => {
-    fetchProducts(`기본Api${term}`);
-  };
-
-  const fetchProducts = fetchApi => {
-    fetch(fetchApi)
+    fetch(`${API}/products?search=${term}`)
       .then(res => res.json())
-      .then(res => setSearchResultArr(res.RESULT.best));
+      .then(res => setSearchResultArr(res.result));
 
+    setSearchTerm(term);
+    setSearchValue('');
+    setIsButtonOn(false);
     setPopularSearchTermsOn(false);
   };
 
@@ -56,6 +65,8 @@ const Search = () => {
             value={searchValue}
             onChange={event => handleSearchInput(event)}
             onFocus={event => handleSearchInput(event)}
+            onKeyPress={event => enterSearch(event)}
+            on
             autoFocus
           />
         </SearchInputWrap>
@@ -76,12 +87,11 @@ const Search = () => {
         </ButtonWrap>
       </SearchBackground>
       <PopularSearch
-        popularSearchTerms={POPULAR_ARR}
+        popularTermsArr={popularTermsArr}
         activated={popularSearchTermsOn}
-        SearchPopular={searchPopular}
       />
-      {searchResultArr.length > 0 ? (
-        <SearchResult searchResultArr={searchResultArr} />
+      {searchResultArr ? (
+        <SearchResult term={searchTerm} searchResultArr={searchResultArr} />
       ) : (
         <EmptySearchResult />
       )}

@@ -1,19 +1,21 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-const PopularSearch = ({ activated, popularSearchTerms, SearchPopular }) => {
+const PopularSearch = ({ activated, popularTermsArr }) => {
+  const history = useHistory();
+
   return (
     <PopularSearchWrap className={!activated && 'activeOff'}>
-      <Title>인기 검색어</Title>
+      <Title>인기 드립</Title>
       <PopularSearchTermsList>
-        {popularSearchTerms.map(list => {
+        {popularTermsArr.map(list => {
           return (
             <PopularSearchTerm
-              key={list.id}
-              value="1"
-              onClick={() => SearchPopular(list.name)}
+              key={list.product_id}
+              onClick={() => history.push(`/detail/${list.product_id}`)}
             >
-              {list.name}
+              {list.name.substring(0, 6) + '...'}
             </PopularSearchTerm>
           );
         })}
@@ -24,8 +26,8 @@ const PopularSearch = ({ activated, popularSearchTerms, SearchPopular }) => {
 
 const PopularSearchWrap = styled.section`
   position: absolute;
+  width: 100%;
   height: 100vh;
-  padding: 10px;
   background-color: #ffffff;
   z-index: 10;
 
@@ -35,7 +37,7 @@ const PopularSearchWrap = styled.section`
 `;
 
 const Title = styled.div`
-  margin: 25px 0;
+  margin: 35px 0 35px 10px;
   font-size: 14px;
   font-weight: bold;
 `;
