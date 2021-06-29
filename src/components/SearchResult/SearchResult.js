@@ -4,14 +4,17 @@ import Footer from '../Footer/Footer';
 import styled from 'styled-components';
 import { flexSet, twoRowCardSet } from '../../styles/mixin';
 
-const SearchResult = searchResultArr => {
+const SearchResult = ({ term, searchResultArr }) => {
   return (
     <SearchResultWrap>
       <TitleWrap>
-        <Title>검색 결과 {searchResultArr.length}</Title>
+        <Title>
+          {' '}
+          '{term}' 검색 결과 {searchResultArr.length}
+        </Title>
       </TitleWrap>
       <DripWrap>
-        {searchResultArr.searchResultArr.map(list => {
+        {searchResultArr.map(list => {
           return (
             <MainCard
               key={list.product_id}
@@ -19,15 +22,14 @@ const SearchResult = searchResultArr => {
               title={list.product_name}
               listPrice={parseInt(list.product_price).toLocaleString()}
               price={parseInt(
-                list.discount === '1'
-                  ? list.product_price
-                  : list.product_price * (1 - list.discount)
+                list.discount !== '1' && list.discount
               ).toLocaleString()}
               region={list.adress}
               isNew={list.new_tag}
               isHot={list.hot_tag}
               grade={list.avg_score}
               thumbnail={list.product_image}
+              bookMarked={list.check}
             />
           );
         })}
