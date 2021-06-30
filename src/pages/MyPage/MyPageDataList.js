@@ -4,11 +4,11 @@ import MyPageCard from '../../components/MyPageCard/MyPageCard';
 import { flexSet } from '../../styles/mixin';
 
 const MyPageDataList = props => {
-  const { data: myPageData } = props;
+  const { result } = props.data;
 
-  return myPageData.length > 0 ? (
-    myPageData.map(data => {
-      return <MyPageCard product={data} />;
+  return result.length > 0 ? (
+    result.map((data, index) => {
+      return <MyPageCard key={index} product={data} />;
     })
   ) : (
     <NotExistSection>

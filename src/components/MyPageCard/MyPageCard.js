@@ -7,21 +7,21 @@ const MyPageCard = product => {
   const history = useHistory();
 
   return (
-    <MainCardWrap onClick={() => history.push(`/detail/${product.id}`)}>
+    <MainCardWrap onClick={() => history.push(`/detail/${product.product.id}`)}>
       <ThumbnailWrap>
-        <Thumbnail alt="product thumbnail" src={product.image} />
+        <Thumbnail alt="product thumbnail" src={product.product.image} />
       </ThumbnailWrap>
       <ContentsWrap>
-        <Title>{product.name}</Title>
-        <Price>{product.price}원 </Price>
+        <Title>{product.product.name}</Title>
+        <Price>{parseInt(product.product.price).toLocaleString()}원 </Price>
         <Informations>
-          {product.grade !== '0' && (
+          {product.product.grade !== '0' && (
             <GradeWrap>
-              ★<Grade>{product.rating}</Grade>
+              ★<Grade>{product.product.rating.slice(0, 4)}</Grade>
             </GradeWrap>
           )}
-          {parseInt(product.isNew) ? <NewFlag>NEW</NewFlag> : null}
-          {parseInt(product.isHot) ? <HotFlag>HOT</HotFlag> : null}
+          {parseInt(product.product.isNew) ? <NewFlag>NEW</NewFlag> : null}
+          {parseInt(product.product.isHot) ? <HotFlag>HOT</HotFlag> : null}
         </Informations>
       </ContentsWrap>
     </MainCardWrap>
