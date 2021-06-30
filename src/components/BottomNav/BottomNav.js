@@ -69,7 +69,7 @@ const BottomNav = () => {
 };
 
 const BottomNavWrapper = styled.section`
-  width: 100%;
+  width: 485px;
   height: 50px;
   position: fixed;
   bottom: 0;

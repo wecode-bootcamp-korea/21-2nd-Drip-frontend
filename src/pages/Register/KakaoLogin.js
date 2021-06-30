@@ -1,4 +1,4 @@
-import { API } from '../../config';
+import { LOGIN_API } from '../../config';
 
 const kakaoLogin = history => {
   window.Kakao.Auth.login({
@@ -15,7 +15,7 @@ const kakaoLogin = history => {
           ],
         },
         success: res => {
-          fetch(`${API}/users/signin`, {
+          fetch(`${LOGIN_API}/users/signin`, {
             method: 'POST',
             headers: {
               Authorization: authToken,

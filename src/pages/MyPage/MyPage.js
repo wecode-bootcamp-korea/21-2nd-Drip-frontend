@@ -1,24 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { commonLayOut, flexSet } from '../../styles/mixin';
-import { API } from '../../config';
+import { MyPage_API } from '../../config';
 import MyPageDataList from './MyPageDataList';
+import HeaderSearch from '../../components/HeaderSearch/HeaderSearch';
+import BottomNav from '../../components/BottomNav/BottomNav';
+import axios from 'axios';
+import Loading from '../../components/Loading/Loading';
 
 const MyPage = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [reserveData, setReserveData] = useState([]);
   const [pastReserveData, setPastReserveData] = useState([]);
   const [currentClicked, setCurrentClicked] = useState('current');
+  const authToken = localStorage.getItem('Token');
 
   useEffect(() => {
-    fetch(`${API}/orders?status=2&page=1`)
-      .then(res => res.json())
-      .then(res => setReserveData(res));
+    axios({
+      method: 'get',
+      url: `${MyPage_API}/orders?status=2&offset=0&limit=4`,
+      headers: {
+        authorization: authToken,
+      },
+    }).then(res => {
+      setReserveData(res.data.result);
+      setIsLoading(false);
+    });
   }, []);
 
   useEffect(() => {
-    fetch(`${API}/orders?status=3&page=1`)
-      .then(res => res.json())
-      .then(res => setPastReserveData(res));
+    axios({
+      method: 'get',
+      url: `${MyPage_API}/orders?status=3&offset=0&limit=4`,
+      headers: {
+        authorization: authToken,
+      },
+    }).then(res => {
+      setPastReserveData(res.data.result);
+    });
   }, []);
 
   const handleClick = e => {
@@ -30,12 +49,14 @@ const MyPage = () => {
     setCurrentClicked(name);
   };
 
+  if (isLoading) return <Loading />;
   return (
     <MyPageWrapper>
+      <HeaderSearch />
       <CommonWrapper>
         <UserInfoWrapper>
-          <UserImage alt="user" src="/images/user_profile_sample.jpeg" />
-          <Username>테스트</Username>
+          <UserImage alt="user" src={reserveData.user_info.profile_image} />
+          <Username>{reserveData.user_info.name}</Username>
         </UserInfoWrapper>
       </CommonWrapper>
       <Divideline />
@@ -61,19 +82,23 @@ const MyPage = () => {
               지난 예약
             </NavTab>
           </ReservationNav>
-          {currentClicked === 'current' ? (
-            <MyPageDataList data={reserveData} />
-          ) : (
-            <MyPageDataList data={pastReserveData} />
-          )}
+          <ExistSection>
+            {currentClicked === 'current' ? (
+              <MyPageDataList data={reserveData} />
+            ) : (
+              <MyPageDataList data={pastReserveData} />
+            )}
+          </ExistSection>
         </ReservationInfoWrapper>
       </CommonWrapper>
+      <BottomNav />
     </MyPageWrapper>
   );
 };
 
 const MyPageWrapper = styled.section`
   ${commonLayOut}
+  height: 100vh;
 `;
 
 const CommonWrapper = styled.section`
@@ -90,6 +115,7 @@ const UserInfoWrapper = styled.section`
 const UserImage = styled.img`
   width: 55px;
   height: 55px;
+  margin-left: 10px;
   border-radius: 50%;
 `;
 
@@ -101,7 +127,7 @@ const Username = styled.span`
 
 const Divideline = styled.div`
   width: 100%;
-  border: 2px solid ${props => props.theme.LightGray};
+  border: 1px solid ${props => props.theme.LightGray};
   margin: 10px 0;
 `;
 
@@ -118,7 +144,12 @@ const NavTab = styled.span`
   cursor: pointer;
 `;
 
-const ExistSection = styled.section``;
+const ExistSection = styled.section`
+  padding: 30px 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+`;
 
 const NotExistSection = styled.section`
   height: 250px;
