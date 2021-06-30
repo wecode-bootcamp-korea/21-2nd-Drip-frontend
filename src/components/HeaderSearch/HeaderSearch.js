@@ -20,6 +20,7 @@ const HeaderSearch = () => {
 };
 
 const HeaderSearchWrap = styled.div`
+  width: 100%;
   padding: 10px 0;
 `;
 

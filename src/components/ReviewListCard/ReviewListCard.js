@@ -1,44 +1,66 @@
 import React from 'react';
 import styled from 'styled-components';
+import StarRatings from 'react-star-ratings';
+import axios from 'axios';
 import { commonLayOut, flexSet } from '../../styles/mixin';
+import { API } from '../../config';
 
-const ReviewListCard = () => {
+const ReviewListCard = props => {
+  const { data, index } = props;
+
+  const handleLike = async () => {
+    const authToken = localStorage.getItem('Token');
+    await axios({
+      method: 'post',
+      url: `${API}/reviews/like`,
+      headers: {
+        authorization: authToken,
+      },
+      data: {
+        review_id: index + 1,
+      },
+    }).then(res => console.log(res));
+  };
+
+  const handleLikeRemove = async () => {
+    const authToken = localStorage.getItem('Token');
+    await axios({
+      method: 'delete',
+      url: `${API}/reviews/like/1`,
+      headers: {
+        authorization: authToken,
+      },
+    }).then(res => console.log(res));
+  };
+
   return (
     <ReviewWrapper>
-      <ReviewHeader>
-        <HeaderLeftSide>
-          <p>후기 105개</p>
-          <p>평균 평점 4.8</p>
-        </HeaderLeftSide>
-        <HeaderRightSide>
-          <select name="choice">
-            <option value="new">최신순</option>
-            <option value="help">도움순</option>
-          </select>
-        </HeaderRightSide>
-      </ReviewHeader>
       <DivideLine />
       <ReviewContentWrapper>
         <div>
-          <UserImage />
+          <UserImage alt="user profile" src={data.image_url} />
           <UserRatingWrapper>
-            <UserName>테스트</UserName>
+            <UserName>{data.user}</UserName>
+            <StarRatings
+              starRatedColor="red"
+              rating={parseInt(data.rating)}
+              starDimension="10px"
+              starSpacing="0px"
+            />
           </UserRatingWrapper>
         </div>
         <div>
-          <ReviewContent>
-            편안한 목소리로 이론수업 자세히 지루하지않게 열심히 해주시고 실습도
-            주변에 다이빙이나 스킨스쿠버하는사람이 적지않아서 시끄럽고
-            정신없었는데 너무 차분히 든든하게 침착하게 잘알려주시고 물속에서의
-            강사님은 한마리의 바다표범같이 너무 자유롭고 편해보이셔서 넘
-            멋졌어요~^^저도 열심히해서 물속에서 자유롭게 수영하고싶네요ㅎㅎ
-          </ReviewContent>
+          <ReviewContent>{data.content}</ReviewContent>
         </div>
         <div>
-          <RecommendSpan>도움이 됐어요 3명</RecommendSpan>
+          <RecommendSpan
+            onClick={data.like ? handleLikeRemove : handleLike}
+            style={{ color: data.like ? 'blue' : 'lightgray' }}
+          >
+            도움이 됐어요 {data.like_count}명
+          </RecommendSpan>
         </div>
         <div>
-          <Thumbnail></Thumbnail>
           <Thumbnail></Thumbnail>
         </div>
       </ReviewContentWrapper>
@@ -48,29 +70,8 @@ const ReviewListCard = () => {
 
 const ReviewWrapper = styled.section`
   ${commonLayOut}
-  padding: 20px 0;
+  padding: 10px 0;
 `;
-
-const ReviewHeader = styled.header`
-  padding: 5px 15px;
-  ${flexSet('row', 'space-between', 'flex-start')};
-`;
-
-const HeaderLeftSide = styled.section`
-  ${flexSet('column', 'center', 'flex-start')};
-
-  > p:first-child {
-    font-size: 20px;
-    font-weight: 700;
-  }
-
-  > p:last-child {
-    padding-top: 15px;
-    font-size: 14px;
-  }
-`;
-
-const HeaderRightSide = styled.section``;
 
 const DivideLine = styled.div`
   margin: 15px 0;
@@ -104,6 +105,8 @@ const UserName = styled.p`
   font-weight: 700;
 `;
 
+const Rating = styled.p``;
+
 const ReviewContent = styled.p`
   padding: 10px 0;
   font-size: 12px;
@@ -114,6 +117,7 @@ const ReviewContent = styled.p`
 const RecommendSpan = styled.span`
   font-size: 12px;
   color: ${props => props.theme.Gray};
+  cursor: pointer;
 `;
 
 const Thumbnail = styled.img`
