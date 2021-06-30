@@ -37,7 +37,7 @@ const Routes = () => (
           <Route exact path="/login" component={Login} />
           <Route exact path="/mypage" component={MyPage} />
           <Route exact path="/register" component={Register} />
-          <Route exact path="/review" component={Review} />
+          <Route exact path="/review/:id" component={Review} />
           <Route exact path="/search" component={Search} />
           <Route exact path="/review-write" component={ReviewWrite} />
           {/* <Route exact path="/search" component={Search} /> */}
