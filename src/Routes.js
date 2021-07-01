@@ -12,6 +12,7 @@ import MyPage from './pages/MyPage/MyPage';
 import Register from './pages/Register/Register';
 import Review from './pages/Review/Review';
 import Search from './pages/Search/Search';
+import Order from './pages/Order/Order';
 // 컴포넌트 테스트용 임포트
 import BottomNav from './components/BottomNav/BottomNav';
 import HeaderNav from './components/HeaderNav/HeaderNav';
@@ -40,6 +41,7 @@ const Routes = () => (
           <Route exact path="/review/:id" component={Review} />
           <Route exact path="/search" component={Search} />
           <Route exact path="/review-write" component={ReviewWrite} />
+          <Route exact path="/order" component={Order} />
           {/* <Route exact path="/search" component={Search} /> */}
           {/* 컴포넌트 테스트용 */}
           <Route exact path="/bottomnav" component={BottomNav} />

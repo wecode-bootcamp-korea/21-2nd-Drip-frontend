@@ -1,6 +1,6 @@
 import { LOGIN_API } from '../../config';
 
-const kakaoLogin = history => {
+const KakaoLogin = history => {
   window.Kakao.Auth.login({
     success: res => {
       const authToken = res.access_token;
@@ -45,4 +45,4 @@ const kakaoLogin = history => {
   });
 };
 
-export default kakaoLogin;
+export default KakaoLogin;
