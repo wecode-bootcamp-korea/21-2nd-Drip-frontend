@@ -5,7 +5,7 @@ import { flexSet } from '../../styles/mixin';
 import { API } from '../../config';
 
 const MainCard = product => {
-  const [isBookMarked, setIsBookMarked] = useState(false);
+  const [isBookMarked, setIsBookMarked] = useState(product.bookMarked);
   const history = useHistory();
 
   const handleBookMark = e => {
@@ -25,7 +25,7 @@ const MainCard = product => {
       });
     } else {
       alert('로그인 후 사용이 가능합니다.');
-      history.push('/login');
+      history.push('/register');
     }
   };
 
@@ -37,7 +37,7 @@ const MainCard = product => {
         <Bookmark
           alt="Bookmark Icon"
           src={
-            isBookMarked
+            product.bookMarked
               ? '/images/mainCard/bookmark-black.png'
               : '/images/mainCard/bookmark-white.png'
           }
@@ -58,8 +58,8 @@ const MainCard = product => {
               ★<Grade>{product.grade}</Grade>
             </GradeWrap>
           )}
-          {parseInt(product.isNew) ? <NewFlag>NEW</NewFlag> : null}
-          {parseInt(product.isHot) ? <HotFlag>HOT</HotFlag> : null}
+          {product.isNew ? <NewFlag>NEW</NewFlag> : null}
+          {product.isHot ? <HotFlag>HOT</HotFlag> : null}
         </Informations>
       </ContentsWrap>
     </MainCardWrap>
