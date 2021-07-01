@@ -19,7 +19,7 @@ const Order = productId => {
   useEffect(() => {
     fetch(`${ORDER_API}/products/${productId}`)
       .then(res => res.json())
-      .then(res => setItemData(res));
+      .then(res => setItemData(res.data.result));
   }, []);
 
   useEffect(() => {
@@ -93,9 +93,16 @@ const Order = productId => {
             src="/images/mainCard/thumbnail.png"
           />
           <ItemDetailWrap>
-            <ItemName>상품이름입니다아아아아아아아아아아아아아아ㅏㅇ!</ItemName>
+            <ItemName>{itemData.Detail_info.product_name}</ItemName>
             <PriceWrap>
-              35,000원 <ListPrice>80,000</ListPrice>
+              {parseInt(
+                itemData.Detail_info.discount !== '1' &&
+                  itemData.Detail_info.discount
+              ).toLocaleString()}
+              원{' '}
+              <ListPrice>
+                {parseInt(itemData.Detail_info.product_price).toLocaleString()}
+              </ListPrice>
             </PriceWrap>
           </ItemDetailWrap>
         </ItemInformation>
