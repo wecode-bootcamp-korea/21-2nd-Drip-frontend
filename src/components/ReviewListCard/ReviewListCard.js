@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import StarRatings from 'react-star-ratings';
 import axios from 'axios';
 import { commonLayOut, flexSet } from '../../styles/mixin';
-import { API } from '../../config';
+import { LOGIN_API } from '../../config';
 
 const ReviewListCard = props => {
   const { data, index } = props;
@@ -12,7 +12,7 @@ const ReviewListCard = props => {
     const authToken = localStorage.getItem('Token');
     await axios({
       method: 'post',
-      url: `${API}/reviews/like`,
+      url: `${LOGIN_API}/reviews/like`,
       headers: {
         authorization: authToken,
       },
@@ -26,7 +26,7 @@ const ReviewListCard = props => {
     const authToken = localStorage.getItem('Token');
     await axios({
       method: 'delete',
-      url: `${API}/reviews/like/1`,
+      url: `${LOGIN_API}/reviews/like/1`,
       headers: {
         authorization: authToken,
       },
@@ -38,7 +38,7 @@ const ReviewListCard = props => {
       <DivideLine />
       <ReviewContentWrapper>
         <div>
-          <UserImage alt="user profile" src={data.image_url} />
+          <UserImage alt="user profile" src={data.user_image} />
           <UserRatingWrapper>
             <UserName>{data.user}</UserName>
             <StarRatings
@@ -61,7 +61,7 @@ const ReviewListCard = props => {
           </RecommendSpan>
         </div>
         <div>
-          <Thumbnail></Thumbnail>
+          <Thumbnail alt="review img" src={data.image_url}></Thumbnail>
         </div>
       </ReviewContentWrapper>
     </ReviewWrapper>
@@ -124,10 +124,6 @@ const Thumbnail = styled.img`
   width: 60px;
   height: 60px;
   border-radius: 10px;
-
-  &:not(:first-child) {
-    padding-left: 10px;
-  }
 `;
 
 export default ReviewListCard;

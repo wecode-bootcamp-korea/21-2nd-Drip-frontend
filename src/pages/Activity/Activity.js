@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MainCard from '../../components/MainCard/MainCard';
 import HeaderSearch from '../../components/HeaderSearch/HeaderSearch';
 import HeaderNav from '../../components/HeaderNav/HeaderNav';
+import BottomNav from '../../components/BottomNav/BottomNav';
 import Footer from '../../components/Footer/Footer';
 import styled from 'styled-components';
 import ACTIVITY_CATEGORY from './ActivityCategoryData';
@@ -104,6 +105,7 @@ const Activity = () => {
         </DripsWrap>
       </List>
       <Footer />
+      <BottomNav />
     </ActivityWrap>
   );
 };

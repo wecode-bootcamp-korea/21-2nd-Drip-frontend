@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
 import StarRatings from 'react-star-ratings';
-import { flexSet } from '../../styles/mixin';
+import { commonLayOut, flexSet } from '../../styles/mixin';
 import { PRODUCT_API, REVIEW_API } from '../../config';
 import Map from '../../components/Map/Map';
 import Loading from '../../components/Loading/Loading';
 import axios from 'axios';
 import RecommendCard from '../../components/RecommendCard/RecommendCard';
-import HeaderSearch from '../../components/HeaderSearch/HeaderSearch';
 import Footer from '../../components/Footer/Footer';
 
 const Detail = () => {
@@ -20,11 +19,15 @@ const Detail = () => {
   const history = useHistory();
   const match = useRouteMatch();
   const { productid: productId } = match.params;
+  const authToken = localStorage.getItem('Token');
 
   useEffect(() => {
     axios({
       method: 'get',
       url: `${PRODUCT_API}/products/${productId}`,
+      headers: {
+        authorization: authToken,
+      },
     })
       .then(res => {
         setProductData(res.data.result);
@@ -37,7 +40,7 @@ const Detail = () => {
     const authToken = localStorage.getItem('Token');
     axios({
       method: 'get',
-      url: `${REVIEW_API}/reviews/${productId}`,
+      url: `${PRODUCT_API}/reviews/${productId}`,
       headers: {
         authorization: authToken,
       },
@@ -57,10 +60,17 @@ const Detail = () => {
     history.goBack();
   };
 
-  if (isContentLoading) return <Loading />;
+  if (isContentLoading) {
+    return (
+      <LoadingWrapper>
+        <Loading />
+        <h1>데이터를 불러오는 중입니다...</h1>
+      </LoadingWrapper>
+    );
+  }
+
   return (
     <>
-      <HeaderSearch />
       <DetailWrapper>
         <IconWrapper>
           <Icon alt="go back" src="/icon/left-arrow.png" onClick={goBack} />
@@ -129,6 +139,7 @@ const Detail = () => {
         <DivideLine />
         <ProductIntroduceWrapper>
           <Title>프립 소개</Title>
+          <ProductIntroduceImage src={productData.Detail_info.description} />
         </ProductIntroduceWrapper>
         <DivideLine />
         <MapWrapper>
@@ -146,17 +157,18 @@ const Detail = () => {
                   key={data.index}
                   id={data.product_id}
                   thumbnail={data.product_image}
-                  price={parseInt(data.product_price).toLocaleString()}
-                  listPrice={parseInt(data.discount).toLocaleString()}
+                  listPrice={parseInt(data.product_price).toLocaleString()}
+                  price={parseInt(data.discount).toLocaleString()}
                   grade={data.avg_score}
                   title={data.product_name}
+                  address={data.address.slice(0, 2)}
                 />
               );
             })}
           </RecommendCardList>
         </RecommendWrapper>
+        <Footer />
       </DetailWrapper>
-      <Footer />
       <ConfirmWrapper>
         <Bookmark
           alt="bookmark"
@@ -169,8 +181,19 @@ const Detail = () => {
   );
 };
 
+const LoadingWrapper = styled.section`
+  height: 100vh;
+  ${flexSet('column', 'center', 'center')};
+
+  > h1 {
+    padding-top: 20px;
+    font-size: 20px;
+    font-weight: 700;
+  }
+`;
+
 const DetailWrapper = styled.section`
-  width: 485px;
+  ${commonLayOut}
   ${flexSet('column')}
 `;
 
@@ -217,7 +240,7 @@ const DivideLine = styled.div`
 `;
 
 const ReviewWrapper = styled.section`
-  height: 300px;
+  width: 100%;
   display: grid;
   grid-template-rows: repeat(1, 1fr);
 `;
@@ -234,8 +257,8 @@ const ReviewTitle = styled.section`
 `;
 
 const ReviewListWrapper = styled.section`
-  width: 100%;
-  padding: 0 10px;
+  width: 95%;
+  padding: 10px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 15px;
@@ -243,9 +266,18 @@ const ReviewListWrapper = styled.section`
 
 const ReviewContentWrapper = styled.section`
   ${flexSet('column')}
+
+  >section {
+    ${flexSet('row', 'center', 'center')}
+    padding-top: 10px;
+  }
 `;
 
-const ReviewPhoto = styled.img``;
+const ReviewPhoto = styled.img`
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+`;
 
 const ReviewWriterPhoto = styled.img`
   width: 20px;
@@ -253,11 +285,13 @@ const ReviewWriterPhoto = styled.img`
   border-radius: 50%;
 `;
 
-const ReviewWriter = styled.span``;
+const ReviewWriter = styled.span`
+  padding-left: 5px;
+`;
 
 const ReviewContent = styled.p`
-  font-size: 16px;
-  padding: 5px 0;
+  font-size: 15px;
+  padding: 15px 0;
 `;
 
 const ReviewLinkToList = styled.section`
@@ -265,7 +299,13 @@ const ReviewLinkToList = styled.section`
   ${flexSet('row', 'center', 'center')}
 `;
 
-const ProductIntroduceWrapper = styled.section``;
+const ProductIntroduceWrapper = styled.section`
+  width: 100%;
+`;
+
+const ProductIntroduceImage = styled.img`
+  width: 100%;
+`;
 
 const Title = styled.p`
   padding: 25px 20px;
@@ -284,9 +324,7 @@ const MapAddress = styled.p`
   font-size: 12px;
 `;
 
-const RecommendWrapper = styled.section`
-  height: 250px;
-`;
+const RecommendWrapper = styled.section``;
 
 const RecommendCardList = styled.section`
   padding: 0 10px;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import HeaderSearch from '../../components/HeaderSearch/HeaderSearch';
 import HeaderNav from '../../components/HeaderNav/HeaderNav';
+import BottomNav from '../../components/BottomNav/BottomNav';
 import Footer from '../../components/Footer/Footer';
 import MainCard from '../../components/MainCard/MainCard';
 import styled from 'styled-components';
@@ -97,6 +98,7 @@ const Main = () => {
         </DripWrap>
       </List>
       <Footer />
+      <BottomNav />
     </MainWrap>
   );
 };

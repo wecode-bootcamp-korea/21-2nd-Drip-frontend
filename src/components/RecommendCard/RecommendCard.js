@@ -33,7 +33,7 @@ const MainCard = product => {
     <MainCardWrap onClick={() => history.push(`/detail/${product.id}`)}>
       <ThumbnailWrap>
         <Thumbnail alt="product thumbnail" src={product.thumbnail} />
-        <Location>{product.region}</Location>
+        <Location>{product.address}</Location>
         <Bookmark
           alt="Bookmark Icon"
           src={
@@ -80,7 +80,8 @@ const ThumbnailWrap = styled.div`
 `;
 
 const Thumbnail = styled.img`
-  width: 100%;
+  width: 100px;
+  height: 100px;
   border-radius: 5px;
 `;
 
@@ -96,8 +97,8 @@ const Location = styled.div`
   position: absolute;
   top: 10px;
   left: 10px;
-  color: #ffffff;
-  font-size: 14px;
+  color: white;
+  font-size: 10px;
   font-weight: bold;
 `;
 

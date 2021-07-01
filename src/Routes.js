@@ -30,6 +30,7 @@ const Routes = () => (
       <BrowserRouter>
         <Switch>
           {/* 메인 페이지 */}
+          <Route exact path="/" component={Main} />
           <Route exact path="/main" component={Main} />
           <Route exact path="/activity" component={Activity} />
           <Route exact path="/bookmark" component={Bookmark} />
@@ -42,6 +43,7 @@ const Routes = () => (
           <Route exact path="/search" component={Search} />
           <Route exact path="/review-write" component={ReviewWrite} />
           <Route exact path="/order" component={Order} />
+          <Route exact path="/*" component={Main} />
           {/* <Route exact path="/search" component={Search} /> */}
           {/* 컴포넌트 테스트용 */}
           <Route exact path="/bottomnav" component={BottomNav} />

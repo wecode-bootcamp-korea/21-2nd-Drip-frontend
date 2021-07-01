@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
 import { flexSet } from '../../styles/mixin';
 
@@ -7,7 +7,9 @@ const MyPageCard = product => {
   const history = useHistory();
 
   return (
-    <MainCardWrap onClick={() => history.push(`/detail/${product.product.id}`)}>
+    <MainCardWrap
+      onClick={() => history.push(`/detail/${product.product.product_id}`)}
+    >
       <ThumbnailWrap>
         <Thumbnail alt="product thumbnail" src={product.product.image} />
       </ThumbnailWrap>

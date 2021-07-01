@@ -8,10 +8,15 @@ import Loading from '../../components/Loading/Loading';
 import ReviewListCard from '../../components/ReviewListCard/ReviewListCard';
 import { API } from '../../config';
 import { commonLayOut, flexSet } from '../../styles/mixin';
+import { useRouteMatch } from 'react-router-dom';
 
 const Review = () => {
   const [reviewList, setReviewList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [ratingAverage, setRatingAverage] = useState();
+
+  const match = useRouteMatch();
+  const { id: productId } = match.params;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,11 +24,12 @@ const Review = () => {
         const authToken = localStorage.getItem('Token');
         const result = await axios({
           method: 'get',
-          url: `${API}/reviews/1`,
+          url: `${API}/reviews/${productId}`,
           headers: {
             authorization: authToken,
           },
         });
+        setRatingAverage(result.data.avgrating);
         setReviewList(result.data.result);
       } catch (err) {
         console.error(err);
@@ -46,11 +52,11 @@ const Review = () => {
           <p>
             <StarRatings
               starRatedColor="red"
-              rating={4}
+              rating={ratingAverage.substring(0, 3)}
               starDimension="17px"
               starSpacing="0px"
             />
-            <span>4</span>
+            <span>{ratingAverage.substring(0, 3)}</span>
           </p>
         </HeaderLeftSide>
         <HeaderRightSide>
@@ -70,6 +76,7 @@ const Review = () => {
 };
 
 const LoadingWrapper = styled.section`
+  height: 100vh;
   ${commonLayOut}
   ${flexSet('row', 'center', 'center')}
 `;
@@ -80,6 +87,7 @@ const ReviewWrapper = styled.section`
 `;
 
 const ReviewHeader = styled.header`
+  width: 95%;
   padding: 5px 15px;
   ${flexSet('row', 'space-between', 'flex-start')};
 `;

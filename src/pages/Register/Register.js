@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import BottomNav from '../../components/BottomNav/BottomNav';
 import { flexSet } from '../../styles/mixin';
 import KakaoLogin from './KakaoLogin';
 
@@ -26,13 +27,14 @@ const Register = () => {
           onClick={() => KakaoLogin(history)}
         ></KakaoLoginButton>
       </LoginButtonWrapper>
+      <BottomNav />
     </RegisterWrapper>
   );
 };
 
 const RegisterWrapper = styled.section`
   width: 100vw;
-  height: 40vh;
+  height: 100vh;
   ${flexSet('column', 'center', 'center')}
 `;
 
