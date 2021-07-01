@@ -5,7 +5,7 @@ import BottomNav from '../../components/BottomNav/BottomNav';
 import HeaderSearch from '../../components/HeaderSearch/HeaderSearch';
 import Loading from '../../components/Loading/Loading';
 import MainCard from '../../components/MainCard/MainCard';
-import { API } from '../../config';
+import { BOOKMARK_API } from '../../config';
 import { commonLayOut } from '../../styles/mixin';
 
 const Bookmark = () => {
@@ -15,11 +15,13 @@ const Bookmark = () => {
   useEffect(() => {
     const authToken = localStorage.getItem('Token');
     try {
-      axios(`${API}/orders/bookmark?offset=0&limit=4`, {
+      axios(`${BOOKMARK_API}/orders/bookmark?offset=0&limit=4`, {
         headers: {
           Authorization: authToken,
         },
-      }).then(res => setBookMarkData(res.data));
+      }).then(res => {
+        setBookMarkData(res.data.result);
+      });
     } catch (error) {
       console.error(error);
     }

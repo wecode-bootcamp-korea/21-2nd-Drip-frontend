@@ -27,28 +27,18 @@ const BottomNav = () => {
           <IconTitle>홈</IconTitle>
         </IconWrapper>
       </StyledLink>
-      <StyledLink to="/bookmark">
+      <StyledLink to={currentToken ? '/bookmark' : '/register'}>
         <IconWrapper>
           <Icon alt="Bookmark" src="/Icon/black_bookmark.png" />
           <IconTitle>찜</IconTitle>
         </IconWrapper>
       </StyledLink>
-      {currentToken ? (
-        <StyledLink to="/mypage">
-          <IconWrapper>
-            <Icon alt="My page" src="/Icon/my.png" />
-            <IconTitle>마이</IconTitle>
-          </IconWrapper>
-        </StyledLink>
-      ) : (
-        <StyledLink to="/register">
-          <IconWrapper>
-            <Icon alt="My page" src="/Icon/my.png" />
-            <IconTitle>마이</IconTitle>
-          </IconWrapper>
-        </StyledLink>
-      )}
-
+      <StyledLink to={currentToken ? '/mypage' : '/register'}>
+        <IconWrapper>
+          <Icon alt="My page" src="/Icon/my.png" />
+          <IconTitle>마이</IconTitle>
+        </IconWrapper>
+      </StyledLink>
       {currentToken ? (
         <StyledLink onClick={handleLogout}>
           <IconWrapper>
@@ -78,6 +68,8 @@ const BottomNavWrapper = styled.section`
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid #f4f4f4;
+  background-color: #ffffff;
+  z-index: 100;
 `;
 
 const StyledLink = styled(Link)`
