@@ -16,6 +16,7 @@ export const twoRowCardSet = () => css`
   grid-template-rows: repeat(2, 1fr);
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
+  margin-bottom: 40px;
 `;
 
 export const commonLayOut = () => css`

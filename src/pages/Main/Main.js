@@ -1,20 +1,39 @@
 import React, { useState, useEffect } from 'react';
+import Slider from 'react-slick';
 import HeaderSearch from '../../components/HeaderSearch/HeaderSearch';
 import HeaderNav from '../../components/HeaderNav/HeaderNav';
+import Footer from '../../components/Footer/Footer';
 import MainCard from '../../components/MainCard/MainCard';
 import styled from 'styled-components';
 import { twoRowCardSet, commonLayOut } from '../../styles/mixin';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { MAIN_API } from '../../config';
+
+const settings = {
+  infinite: true,
+  speed: 800,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 2000,
+};
 
 const Main = () => {
   const [hotDripArr, setHotDripArr] = useState([]);
   const [newDripArr, setNewDripArr] = useState([]);
 
   useEffect(() => {
-    fetch('/Data/DripListData.json')
+    fetch(`${MAIN_API}/products?sortMethod=sellcount&reverse=True&limit=4`)
       .then(res => res.json())
       .then(res => {
-        setHotDripArr(res.RESULT.best);
-        setNewDripArr(res.RESULT.new);
+        setHotDripArr(res.RESULT.products);
+      });
+
+    fetch(`${MAIN_API}/products?sortMethod=date&reverse=True&limit=4`)
+      .then(res => res.json())
+      .then(res => {
+        setNewDripArr(res.RESULT.products);
       });
   }, []);
 
@@ -23,9 +42,11 @@ const Main = () => {
       <HeaderSearch />
       <HeaderNav />
       <BigBanner>
-        <BannerImage alt="banner" src="/images/main/bigbanner-1.png" />
-        <LeftButton>&lt;</LeftButton>
-        <RightButton>&gt;</RightButton>
+        <StyledSlider {...settings}>
+          <BannerImage alt="banner" src="/images/main/bigbanner-1.png" />
+          <BannerImage alt="banner" src="/images/main/bigbanner-2.png" />
+          <BannerImage alt="banner" src="/images/main/bigbanner-3.png" />
+        </StyledSlider>
       </BigBanner>
       <List>
         <Title>지금 뜨는 드립 🚀</Title>
@@ -37,18 +58,15 @@ const Main = () => {
                 id={list.product_id}
                 title={list.product_name}
                 listPrice={parseInt(list.product_price).toLocaleString()}
-                price={
-                  list.discount === '1'
-                    ? parseInt(list.product_price).toLocaleString()
-                    : parseInt(
-                        list.product_price * (1 - list.discount)
-                      ).toLocaleString()
-                }
+                price={parseInt(
+                  list.discount !== '1' && list.discount
+                ).toLocaleString()}
                 region={list.adress}
                 isNew={list.new_tag}
                 isHot={list.hot_tag}
                 grade={list.avg_score}
                 thumbnail={list.product_image}
+                bookMarked={list.check}
               />
             );
           })}
@@ -64,23 +82,21 @@ const Main = () => {
                 id={list.product_id}
                 title={list.product_name}
                 listPrice={parseInt(list.product_price).toLocaleString()}
-                price={
-                  list.discount === '1'
-                    ? parseInt(list.product_price).toLocaleString()
-                    : parseInt(
-                        list.product_price * (1 - list.discount)
-                      ).toLocaleString()
-                }
+                price={parseInt(
+                  list.discount !== '1' && list.discount
+                ).toLocaleString()}
                 region={list.adress}
                 isNew={list.new_tag}
                 isHot={list.hot_tag}
                 grade={list.avg_score}
                 thumbnail={list.product_image}
+                bookMarked={list.check}
               />
             );
           })}
         </DripWrap>
       </List>
+      <Footer />
     </MainWrap>
   );
 };
@@ -99,24 +115,10 @@ const BannerImage = styled.img`
   width: 100%px;
 `;
 
-const LeftButton = styled.div`
-  position: absolute;
-  top: 45%;
-  left: 15px;
-  padding: 5px;
-  background-color: ${props => props.theme.LightGray};
-  opacity: 0.5;
-  cursor: pointer;
-`;
-
-const RightButton = styled.div`
-  position: absolute;
-  top: 45%;
-  right: 15px;
-  padding: 5px;
-  background-color: ${props => props.theme.LightGray};
-  opacity: 0.5;
-  cursor: pointer;
+const StyledSlider = styled(Slider)`
+  .slick-slide img {
+    outline: none;
+  }
 `;
 
 const List = styled.div`
