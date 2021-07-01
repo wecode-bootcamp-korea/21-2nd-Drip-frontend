@@ -31,7 +31,7 @@ const kakaoLogin = history => {
               if (res.token) {
                 localStorage.setItem('Token', res.token);
                 alert('로그인 되었습니다.');
-                history.push('/');
+                history.push('/main');
               } else {
                 alert('다시 확인해 주세요.');
               }
