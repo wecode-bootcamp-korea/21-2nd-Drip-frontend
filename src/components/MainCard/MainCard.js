@@ -13,7 +13,7 @@ const MainCard = product => {
 
     if (localStorage.getItem('Token')) {
       setIsBookMarked(!isBookMarked);
-      fetch(`${API}/orders`, {
+      fetch(`${API}/orders/bookmark`, {
         method: 'POST',
         headers: {
           Authorization: localStorage.getItem('Token'),
@@ -37,7 +37,7 @@ const MainCard = product => {
         <Bookmark
           alt="Bookmark Icon"
           src={
-            product.bookMarked
+            isBookMarked
               ? '/images/mainCard/bookmark-black.png'
               : '/images/mainCard/bookmark-white.png'
           }
@@ -81,6 +81,7 @@ const ThumbnailWrap = styled.div`
 
 const Thumbnail = styled.img`
   width: 100%;
+  height: 200px;
   border-radius: 5px;
 `;
 

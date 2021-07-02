@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { commonLayOut, flexSet } from '../../styles/mixin';
-import { MyPage_API } from '../../config';
+import { API } from '../../config';
 import MyPageDataList from './MyPageDataList';
 import HeaderSearch from '../../components/HeaderSearch/HeaderSearch';
 import BottomNav from '../../components/BottomNav/BottomNav';
@@ -18,7 +18,7 @@ const MyPage = () => {
   useEffect(() => {
     axios({
       method: 'get',
-      url: `${MyPage_API}/orders?status=2&offset=0&limit=4`,
+      url: `${API}/orders?status=2&offset=0&limit=4`,
       headers: {
         authorization: authToken,
       },
@@ -26,19 +26,19 @@ const MyPage = () => {
       setReserveData(res.data.result);
       setIsLoading(false);
     });
-  }, []);
+  }, [authToken]);
 
   useEffect(() => {
     axios({
       method: 'get',
-      url: `${MyPage_API}/orders?status=3&offset=0&limit=4`,
+      url: `${API}/orders?status=3&offset=0&limit=4`,
       headers: {
         authorization: authToken,
       },
     }).then(res => {
       setPastReserveData(res.data.result);
     });
-  }, []);
+  }, [authToken]);
 
   const handleClick = e => {
     const {
@@ -49,7 +49,14 @@ const MyPage = () => {
     setCurrentClicked(name);
   };
 
-  if (isLoading) return <Loading />;
+  if (isLoading)
+    return (
+      <LoadingWrapper>
+        <Loading />
+        <h1>데이터를 불러오는 중입니다...</h1>
+        <BottomNav />
+      </LoadingWrapper>
+    );
   return (
     <MyPageWrapper>
       <HeaderSearch />
@@ -84,9 +91,9 @@ const MyPage = () => {
           </ReservationNav>
           <ExistSection>
             {currentClicked === 'current' ? (
-              <MyPageDataList data={reserveData} />
+              <MyPageDataList data={reserveData} status={'current'} />
             ) : (
-              <MyPageDataList data={pastReserveData} />
+              <MyPageDataList data={pastReserveData} status={'past'} />
             )}
           </ExistSection>
         </ReservationInfoWrapper>
@@ -95,6 +102,17 @@ const MyPage = () => {
     </MyPageWrapper>
   );
 };
+
+const LoadingWrapper = styled.section`
+  height: 100vh;
+  ${flexSet('column', 'center', 'center')}
+
+  > h1 {
+    padding-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+`;
 
 const MyPageWrapper = styled.section`
   ${commonLayOut}

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import StarRatings from 'react-star-ratings';
 import axios from 'axios';
 import { commonLayOut, flexSet } from '../../styles/mixin';
-import { LOGIN_API } from '../../config';
+import { API } from '../../config';
 
 const ReviewListCard = props => {
   const { data, index } = props;
@@ -12,7 +12,7 @@ const ReviewListCard = props => {
     const authToken = localStorage.getItem('Token');
     await axios({
       method: 'post',
-      url: `${LOGIN_API}/reviews/like`,
+      url: `${API}/reviews/like`,
       headers: {
         authorization: authToken,
       },
@@ -26,7 +26,7 @@ const ReviewListCard = props => {
     const authToken = localStorage.getItem('Token');
     await axios({
       method: 'delete',
-      url: `${LOGIN_API}/reviews/like/1`,
+      url: `${API}/reviews/like/1`,
       headers: {
         authorization: authToken,
       },

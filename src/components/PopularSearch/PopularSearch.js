@@ -12,10 +12,10 @@ const PopularSearch = ({ activated, popularTermsArr }) => {
         {popularTermsArr.map(list => {
           return (
             <PopularSearchTerm
-              key={list.product_id}
-              onClick={() => history.push(`/detail/${list.product_id}`)}
+              key={list.id}
+              onClick={() => history.push(`/detail/${list.id}`)}
             >
-              {list.name.substring(0, 6) + '...'}
+              {`${list.name.normalize('NFC').substring(0, 5)}...`}
             </PopularSearchTerm>
           );
         })}

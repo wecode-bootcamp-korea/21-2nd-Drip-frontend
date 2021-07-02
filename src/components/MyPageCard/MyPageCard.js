@@ -1,10 +1,17 @@
 import React from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { flexSet } from '../../styles/mixin';
 
 const MyPageCard = product => {
   const history = useHistory();
+
+  const handleClick = e => {
+    e.stopPropagation();
+    history.push('/review-write', {
+      productId: product.product.product_id,
+    });
+  };
 
   return (
     <MainCardWrap
@@ -22,8 +29,7 @@ const MyPageCard = product => {
               ★<Grade>{product.product.rating.slice(0, 4)}</Grade>
             </GradeWrap>
           )}
-          {parseInt(product.product.isNew) ? <NewFlag>NEW</NewFlag> : null}
-          {parseInt(product.product.isHot) ? <HotFlag>HOT</HotFlag> : null}
+          <span onClick={handleClick}>후기작성</span>
         </Informations>
       </ContentsWrap>
     </MainCardWrap>
@@ -45,6 +51,7 @@ const ThumbnailWrap = styled.div`
 
 const Thumbnail = styled.img`
   width: 100%;
+  height: 200px;
   border-radius: 5px;
 `;
 
