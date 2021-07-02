@@ -3,7 +3,7 @@ import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
 import StarRatings from 'react-star-ratings';
 import { commonLayOut, flexSet } from '../../styles/mixin';
-import { PRODUCT_API, REVIEW_API } from '../../config';
+import { API } from '../../config';
 import Map from '../../components/Map/Map';
 import Loading from '../../components/Loading/Loading';
 import axios from 'axios';
@@ -24,23 +24,24 @@ const Detail = () => {
   useEffect(() => {
     axios({
       method: 'get',
-      url: `${PRODUCT_API}/products/${productId}`,
+      url: `${API}/products/${productId}`,
       headers: {
         authorization: authToken,
       },
     })
       .then(res => {
+        console.log(res.data.result);
         setProductData(res.data.result);
         setIsContentLoading(false);
+        setClicked(res.data.result.Detail_info.check);
       })
       .catch(err => console.error(err));
   }, []);
 
   useEffect(() => {
-    const authToken = localStorage.getItem('Token');
     axios({
       method: 'get',
-      url: `${PRODUCT_API}/reviews/${productId}`,
+      url: `${API}/reviews/${productId}`,
       headers: {
         authorization: authToken,
       },
@@ -54,10 +55,28 @@ const Detail = () => {
 
   const handleClick = () => {
     setClicked(!clicked);
+    axios({
+      method: 'post',
+      url: `${API}/orders/bookmark`,
+      headers: {
+        authorization: authToken,
+      },
+      data: {
+        product_id: productId,
+        status: 1,
+      },
+    }).then(res => console.log(res));
   };
 
   const goBack = () => {
     history.goBack();
+  };
+
+  const handleConfirm = () => {
+    history.push({
+      pathname: '/order',
+      state: { productId },
+    });
   };
 
   if (isContentLoading) {
@@ -138,7 +157,7 @@ const Detail = () => {
         </ReviewWrapper>
         <DivideLine />
         <ProductIntroduceWrapper>
-          <Title>프립 소개</Title>
+          <Title>드립 소개</Title>
           <ProductIntroduceImage src={productData.Detail_info.description} />
         </ProductIntroduceWrapper>
         <DivideLine />
@@ -175,7 +194,7 @@ const Detail = () => {
           src={clicked ? '/icon/red_bookmark.png' : '/icon/black_bookmark.png'}
           onClick={handleClick}
         />
-        <ConfirmButton>참여하기</ConfirmButton>
+        <ConfirmButton onClick={handleConfirm}>참여하기</ConfirmButton>
       </ConfirmWrapper>
     </>
   );
@@ -183,6 +202,7 @@ const Detail = () => {
 
 const LoadingWrapper = styled.section`
   height: 100vh;
+  /* width: 100%; */
   ${flexSet('column', 'center', 'center')};
 
   > h1 {

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle from './styles/GlobalStyle';
+import theme from './styles/theme';
 import Main from './pages/Main/Main';
 import Activity from './pages/Activity/Activity';
 import Bookmark from './pages/Bookmark/Bookmark';
@@ -13,14 +14,6 @@ import Register from './pages/Register/Register';
 import Review from './pages/Review/Review';
 import Search from './pages/Search/Search';
 import Order from './pages/Order/Order';
-// 컴포넌트 테스트용 임포트
-import BottomNav from './components/BottomNav/BottomNav';
-import HeaderNav from './components/HeaderNav/HeaderNav';
-import MainCard from './components/MainCard/MainCard';
-import Modal from './components/Modal/Modal';
-import ReviewCard from './components/ReviewCard/ReviewCard';
-import SearchResult from './components/SearchResult/SearchResult';
-import theme from './styles/theme';
 import ReviewWrite from './pages/ReviewWrite/ReviewWrite';
 
 const Routes = () => (
@@ -29,7 +22,6 @@ const Routes = () => (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Switch>
-          {/* 메인 페이지 */}
           <Route exact path="/" component={Main} />
           <Route exact path="/main" component={Main} />
           <Route exact path="/activity" component={Activity} />
@@ -44,14 +36,6 @@ const Routes = () => (
           <Route exact path="/review-write" component={ReviewWrite} />
           <Route exact path="/order" component={Order} />
           <Route exact path="/*" component={Main} />
-          {/* <Route exact path="/search" component={Search} /> */}
-          {/* 컴포넌트 테스트용 */}
-          <Route exact path="/bottomnav" component={BottomNav} />
-          <Route exact path="/headernav" component={HeaderNav} />
-          <Route exact path="/maincard" component={MainCard} />
-          <Route exact path="/modal" component={Modal} />
-          <Route exact path="/reviewcard" component={ReviewCard} />
-          <Route exact path="/searchResult" component={SearchResult} />
         </Switch>
       </BrowserRouter>
     </ThemeProvider>

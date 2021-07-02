@@ -17,9 +17,9 @@ const Search = () => {
   const history = useHistory();
 
   useEffect(() => {
-    fetch(`${API}/products/search?keyword=`)
+    fetch(`${API}/products/search/top`)
       .then(res => res.json())
-      .then(res => setPopularTermsArr(res.result.rank));
+      .then(res => setPopularTermsArr(res.result));
   }, []);
 
   const handleSearchInput = event => {
@@ -44,7 +44,7 @@ const Search = () => {
   };
 
   const searchByTerm = term => {
-    fetch(`${API}/products?search=${term}`)
+    fetch(`${API}/products?keyword=${term}`)
       .then(res => res.json())
       .then(res => setSearchResultArr(res.result));
 

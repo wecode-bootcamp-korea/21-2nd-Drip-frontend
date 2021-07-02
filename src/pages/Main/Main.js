@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { twoRowCardSet, commonLayOut } from '../../styles/mixin';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { MAIN_API } from '../../config';
+import { API } from '../../config';
 
 const settings = {
   infinite: true,
@@ -17,7 +17,7 @@ const settings = {
   slidesToShow: 1,
   slidesToScroll: 1,
   autoplay: true,
-  autoplaySpeed: 2000,
+  autoplaySpeed: 1500,
 };
 
 const Main = () => {
@@ -25,16 +25,17 @@ const Main = () => {
   const [newDripArr, setNewDripArr] = useState([]);
 
   useEffect(() => {
-    fetch(`${MAIN_API}/products?sortMethod=sellcount&reverse=True&limit=4`)
+    fetch(`${API}/products?sortMethod=sellcount&reverse=True&limit=4`)
       .then(res => res.json())
       .then(res => {
-        setHotDripArr(res.RESULT.products);
+        console.log(res.result);
+        setHotDripArr(res.result);
       });
 
-    fetch(`${MAIN_API}/products?sortMethod=date&reverse=True&limit=4`)
+    fetch(`${API}/products?sortMethod=date&reverse=True&limit=4`)
       .then(res => res.json())
       .then(res => {
-        setNewDripArr(res.RESULT.products);
+        setNewDripArr(res.result);
       });
   }, []);
 

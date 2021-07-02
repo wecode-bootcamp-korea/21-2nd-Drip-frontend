@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { flexSet } from '../../styles/mixin';
 import { API } from '../../config';
 
-const MainCard = product => {
-  const [isBookMarked, setIsBookMarked] = useState(false);
+const BookmarkCard = product => {
+  const [isBookMarked, setIsBookMarked] = useState(product.bookMarked);
   const history = useHistory();
 
   const handleBookMark = e => {
@@ -13,7 +13,7 @@ const MainCard = product => {
 
     if (localStorage.getItem('Token')) {
       setIsBookMarked(!isBookMarked);
-      fetch(`${API}/orders`, {
+      fetch(`${API}/orders/bookmark`, {
         method: 'POST',
         headers: {
           Authorization: localStorage.getItem('Token'),
@@ -25,24 +25,15 @@ const MainCard = product => {
       });
     } else {
       alert('로그인 후 사용이 가능합니다.');
-      history.push('/login');
+      history.push('/register');
     }
   };
 
   return (
-    <MainCardWrap onClick={() => history.push(`/detail/${product.id}`)}>
+    <BookmarkCardWrap onClick={() => history.push(`/detail/${product.id}`)}>
       <ThumbnailWrap>
         <Thumbnail alt="product thumbnail" src={product.thumbnail} />
-        <Location>{product.address}</Location>
-        <Bookmark
-          alt="Bookmark Icon"
-          src={
-            isBookMarked
-              ? '/images/mainCard/bookmark-black.png'
-              : '/images/mainCard/bookmark-white.png'
-          }
-          onClick={handleBookMark}
-        />
+        <Location>{product.region}</Location>
       </ThumbnailWrap>
       <ContentsWrap>
         <Title>{product.title}</Title>
@@ -58,15 +49,15 @@ const MainCard = product => {
               ★<Grade>{product.grade}</Grade>
             </GradeWrap>
           )}
-          {parseInt(product.isNew) ? <NewFlag>NEW</NewFlag> : null}
-          {parseInt(product.isHot) ? <HotFlag>HOT</HotFlag> : null}
+          {product.isNew ? <NewFlag>NEW</NewFlag> : null}
+          {product.isHot ? <HotFlag>HOT</HotFlag> : null}
         </Informations>
       </ContentsWrap>
-    </MainCardWrap>
+    </BookmarkCardWrap>
   );
 };
 
-const MainCardWrap = styled.div`
+const BookmarkCardWrap = styled.div`
   cursor: pointer;
 `;
 
@@ -80,16 +71,16 @@ const ThumbnailWrap = styled.div`
 `;
 
 const Thumbnail = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  height: 200px;
   border-radius: 5px;
 `;
 
 const Bookmark = styled.img`
   position: absolute;
   top: 10px;
-  right: 15px;
-  width: 15px;
+  right: 10px;
+  width: 20px;
   filter: invert(100%);
 `;
 
@@ -97,8 +88,8 @@ const Location = styled.div`
   position: absolute;
   top: 10px;
   left: 10px;
-  color: white;
-  font-size: 10px;
+  color: #ffffff;
+  font-size: 14px;
   font-weight: bold;
 `;
 
@@ -153,4 +144,4 @@ const HotFlag = styled.span`
   font-size: 10px;
 `;
 
-export default MainCard;
+export default BookmarkCard;

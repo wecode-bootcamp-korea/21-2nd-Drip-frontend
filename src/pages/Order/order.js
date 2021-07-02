@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import HeaderSearch from '../../components/HeaderSearch/HeaderSearch';
 import Footer from '../../components/Footer/Footer';
-import styled from 'styled-components';
+import Loading from '../../components/Loading/Loading';
 import { flexSet, commonLayOut } from '../../styles/mixin';
-import { useHistory } from 'react-router-dom';
-import { ORDER_API } from '../../config';
+import { API } from '../../config';
 
-const Order = productId => {
+const Order = props => {
   const [itemData, setItemData] = useState([]);
   const [fullAddress, setFullAddress] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
@@ -14,12 +15,17 @@ const Order = productId => {
   const [seletedDate, setSelectedDate] = useState('');
   const [isFormFilled, setIsFormFilled] = useState(false);
   const [personnelCount, setPersonnelCount] = useState(1);
+  const [isContentLoading, setIsContentLoading] = useState(true);
   const history = useHistory();
+  const productId = props.location.state.productId;
 
   useEffect(() => {
-    fetch(`${ORDER_API}/products/${productId}`)
+    fetch(`${API}/products/${productId}`)
       .then(res => res.json())
-      .then(res => setItemData(res.data.result));
+      .then(res => {
+        setItemData(res.result);
+        setIsContentLoading(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -65,7 +71,7 @@ const Order = productId => {
         `${seletedDate} ${personnelCount}명 참여 신청하시겠습니까?`
       ) === true
     ) {
-      fetch(`${ORDER_API}/orders`, {
+      fetch(`${API}/orders`, {
         method: 'POST',
         headers: {
           Authorization: localStorage.getItem('Token'),
@@ -76,11 +82,20 @@ const Order = productId => {
         }),
       });
 
-      history.push('/mypage');
+      history.push('/main');
     } else {
       alert('예약이 취소되었습니다.');
     }
   };
+
+  if (isContentLoading) {
+    return (
+      <LoadingWrapper>
+        <Loading />
+        <h1>데이터를 불러오는 중입니다...</h1>
+      </LoadingWrapper>
+    );
+  }
 
   return (
     <OrderWrap>
@@ -90,7 +105,7 @@ const Order = productId => {
         <ItemInformation>
           <ItemImage
             alt="Item Thumbnail"
-            src="/images/mainCard/thumbnail.png"
+            src={itemData.Detail_info.product_image}
           />
           <ItemDetailWrap>
             <ItemName>{itemData.Detail_info.product_name}</ItemName>
@@ -168,6 +183,18 @@ const Order = productId => {
 
 const OrderWrap = styled.section`
   ${commonLayOut}
+`;
+
+const LoadingWrapper = styled.section`
+  height: 100vh;
+  /* width: 100%; */
+  ${flexSet('column', 'center', 'center')};
+
+  > h1 {
+    padding-top: 20px;
+    font-size: 20px;
+    font-weight: 700;
+  }
 `;
 
 const ContentsWrap = styled.div`

@@ -4,9 +4,10 @@ import axios from 'axios';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import HeaderSearch from '../../components/HeaderSearch/HeaderSearch';
 import Loading from '../../components/Loading/Loading';
+import BookmarkCard from '../../components/BookmarkCard/BookmarkCard';
+import { API } from '../../config';
+import { commonLayOut, flexSet } from '../../styles/mixin';
 import MainCard from '../../components/MainCard/MainCard';
-import { BOOKMARK_API } from '../../config';
-import { commonLayOut } from '../../styles/mixin';
 
 const Bookmark = () => {
   const [bookmarkData, setBookMarkData] = useState([]);
@@ -15,11 +16,12 @@ const Bookmark = () => {
   useEffect(() => {
     const authToken = localStorage.getItem('Token');
     try {
-      axios(`${BOOKMARK_API}/orders/bookmark?offset=0&limit=4`, {
+      axios(`${API}/orders/bookmark?offset=0&limit=4`, {
         headers: {
           Authorization: authToken,
         },
       }).then(res => {
+        console.log(res.data);
         setBookMarkData(res.data.result);
       });
     } catch (error) {
@@ -28,7 +30,14 @@ const Bookmark = () => {
     SetIsLoading(false);
   }, []);
 
-  if (isLoading) return <Loading />;
+  if (isLoading)
+    return (
+      <LoadingWrapper>
+        <Loading />
+        <h1>데이터를 불러오는 중입니다...</h1>
+      </LoadingWrapper>
+    );
+
   return (
     <BookMarkWrapper>
       <HeaderSearch />
@@ -36,7 +45,7 @@ const Bookmark = () => {
         {bookmarkData.result &&
           bookmarkData.result.map((data, index) => {
             return (
-              <MainCard
+              <BookmarkCard
                 key={index}
                 id={data.product_id}
                 title={data.name}
@@ -56,6 +65,17 @@ const Bookmark = () => {
     </BookMarkWrapper>
   );
 };
+
+const LoadingWrapper = styled.section`
+  height: 100vh;
+  ${flexSet('column', 'center', 'center')}
+
+  > h1 {
+    padding-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+`;
 
 const BookMarkWrapper = styled.section`
   ${commonLayOut}

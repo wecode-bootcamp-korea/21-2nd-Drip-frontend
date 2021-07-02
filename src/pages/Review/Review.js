@@ -9,6 +9,7 @@ import ReviewListCard from '../../components/ReviewListCard/ReviewListCard';
 import { API } from '../../config';
 import { commonLayOut, flexSet } from '../../styles/mixin';
 import { useRouteMatch } from 'react-router-dom';
+import BottomNav from '../../components/BottomNav/BottomNav';
 
 const Review = () => {
   const [reviewList, setReviewList] = useState([]);
@@ -52,7 +53,7 @@ const Review = () => {
           <p>
             <StarRatings
               starRatedColor="red"
-              rating={ratingAverage.substring(0, 3)}
+              rating={parseInt(ratingAverage)}
               starDimension="17px"
               starSpacing="0px"
             />
@@ -71,6 +72,7 @@ const Review = () => {
           return <ReviewListCard key={index} data={result} index={index} />;
         })}
       <Footer />
+      <BottomNav />
     </ReviewWrapper>
   );
 };

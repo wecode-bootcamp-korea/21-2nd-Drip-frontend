@@ -41,8 +41,6 @@ const Activity = () => {
       .then(res => setActivityDripArr(res.result));
   };
 
-  console.log(activityDripArr);
-
   return (
     <ActivityWrap>
       <HeaderSearch />

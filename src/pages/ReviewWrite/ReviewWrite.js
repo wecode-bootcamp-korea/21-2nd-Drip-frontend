@@ -1,14 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import StarRatings from 'react-star-ratings';
-import { flexSet } from '../../styles/mixin';
-import { LOGIN_API } from '../../config';
+import { commonLayOut, flexSet } from '../../styles/mixin';
+import { API } from '../../config';
+import Footer from '../../components/Footer/Footer';
+import BottomNav from '../../components/BottomNav/BottomNav';
+import { useHistory } from 'react-router-dom';
 
-const ReviewWrite = () => {
+const ReviewWrite = props => {
+  const [reviewItem, setReviewItem] = useState([]);
   const [content, setContent] = useState('');
   const [star, setStar] = useState();
   const [reviewfiles, setReviewFiles] = useState([]);
+  const productId = props.location.state.productId;
+  const history = useHistory();
+
+  useEffect(() => {
+    fetch(`${API}/products/${productId}`)
+      .then(res => res.json())
+      .then(res => {
+        setReviewItem(res.result.Detail_info);
+      });
+  }, []);
 
   const changeRating = (newRating, name) => {
     setStar(newRating);
@@ -24,10 +38,10 @@ const ReviewWrite = () => {
     e.preventDefault();
 
     const obj = {
-      product: 1,
+      product: productId,
       content,
       rating: star,
-      filename: reviewfiles.length && reviewfiles[0],
+      filename: reviewfiles,
     };
 
     const formData = new FormData();
@@ -36,20 +50,26 @@ const ReviewWrite = () => {
     const authToken = localStorage.getItem('Token');
     axios({
       method: 'post',
-      url: `${LOGIN_API}/reviews`,
+      url: `${API}/reviews`,
       data: formData,
       headers: {
         Authorization: authToken,
-        'Content-Type': 'multipart/form-data',
       },
-    });
+    })
+      .then(res => {
+        alert('리뷰가 등록되었습니다');
+        history.push(`/review/${productId}`);
+      })
+      .catch(err => {
+        alert(err);
+      });
   };
 
   const fileChangeHandler = e => {
     const { files } = e.target;
 
     const file = files[0];
-    setReviewFiles([...reviewfiles, { uploadedFile: file }]);
+    setReviewFiles(file);
   };
 
   return (
@@ -57,10 +77,10 @@ const ReviewWrite = () => {
       <ReviewForm onSubmit={handleSubmit} encType="multipart/form-data">
         <RatingWrapper>
           <div>
-            <ProductImage />
+            <ProductImage alt="product" src={reviewItem.product_image} />
           </div>
           <div>
-            <ProductTitle>test</ProductTitle>
+            <ProductTitle>{reviewItem.product_name}</ProductTitle>
             <StarRatings
               rating={star}
               starRatedColor="red"
@@ -97,14 +117,16 @@ const ReviewWrite = () => {
           <Submitbutton type="submit" />
         </SubmitWrapper>
       </ReviewForm>
+      <Footer />
+      <BottomNav />
     </ReviewWrapper>
   );
 };
 
 const ReviewWrapper = styled.section`
-  width: 440px;
+  ${commonLayOut}
   margin: 20px auto;
-  ${flexSet('row', 'flex-start')}
+  ${flexSet('column', 'flex-start')}
 `;
 
 const ReviewForm = styled.form`
@@ -182,7 +204,8 @@ const SubmitWrapper = styled.section`
 const Submitbutton = styled(Input).attrs({
   type: 'submit',
 })`
-  padding: 6px 30px;
+  padding: 7px 30px;
+  margin: 20px 0;
   border: 1px solid ${props => props.theme.SignitureColor};
   border-radius: 3px;
   background-color: ${props => props.theme.SignitureColor};
