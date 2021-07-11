@@ -92,10 +92,10 @@
 - 카카오 지도 API를 활용하여 수신된 주소 값을 기반으로 지도 출력
 - 상세페이지 내 찜하기 기능 활성화
 
-### 주문 페이지(신미영)  
-  
-- Daum Postcode API를 활용한 주소 검색 기능 구현 
-- 액티비티 참여 날짜, 인원 수 선택 기능 구현 
+### 주문 페이지(신미영)
+
+- Daum Postcode API를 활용한 주소 검색 기능 구현
+- 액티비티 참여 날짜, 인원 수 선택 기능 구현
 - 참여하기 클릭 시 사용자 정보, 참여 옵션 데이터 저장
 
 ### 찜 페이지(박준우)
@@ -130,21 +130,25 @@
 
 <br><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"/><br><img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white"/><br><img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"/><br><img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white"/><br><img src="https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"/><br><img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E"/>
 
-### Back-End <br><img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"/><br> <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white"/><br> <img src="https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white"/><br> <img src="https://img.shields.io/badge/Amazon_AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white"/></br>
+### Back-End
+
+<br><img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"/><br> <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white"/><br> <img src="https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white"/><br> <img src="https://img.shields.io/badge/Amazon_AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white"/></br>
 
 <br>
 
 ## 🛠 사용한 툴
 
-### Common <br> <img src="https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white"/><br> <img alt="Trello" src="https://img.shields.io/badge/Trello-%23026AA7.svg?style=for-the-badge&logo=Trello&logoColor=white"/><br><img alt="Git" src="https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white"/><br> <img alt="GitHub" src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"/><br> <img alt="Postman" src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=red" /></a>
+<br>
+<img src="https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white"/><br> <img alt="Trello" src="https://img.shields.io/badge/Trello-%23026AA7.svg?style=for-the-badge&logo=Trello&logoColor=white"/><br><img alt="Git" src="https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white"/><br> <img alt="GitHub" src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"/><br> <img alt="Postman" src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=red" /></a>
 
+<br>
 <br>
 
 ## 👥 팀원
 
 - 프론트 : [박준우](https://github.com/AutumnWithJay), [신미영](https://github.com/smy0102)
 - 벡엔드 : [박준영](https://github.com/SkyStar-K), [송준](https://github.com/riassuc), [최승리](https://github.com/araaaaan)
-  (드립 벡앤드팀 [깃허브](https://github.com/wecode-bootcamp-korea/21-2nd-Drip-**backend**))
+  (드립 벡앤드팀 [깃허브](https://github.com/wecode-bootcamp-korea/21-2nd-Drip-backend))
 
 ## Reference
 
