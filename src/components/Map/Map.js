@@ -35,7 +35,7 @@ const Map = props => {
 
   return (
     <div>
-      <div id="map" style={{ width: '100vw', height: '300px' }}></div>
+      <div id="map" style={{ width: '485px', height: '300px' }}></div>
     </div>
   );
 };
