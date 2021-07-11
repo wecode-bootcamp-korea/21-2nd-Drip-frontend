@@ -28,7 +28,6 @@ const Main = () => {
     fetch(`${API}/products?sortMethod=sellcount&reverse=True&limit=4`)
       .then(res => res.json())
       .then(res => {
-        console.log(res.result);
         setHotDripArr(res.result);
       });
 

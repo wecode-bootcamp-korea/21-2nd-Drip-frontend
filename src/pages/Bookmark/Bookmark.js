@@ -21,7 +21,6 @@ const Bookmark = () => {
           Authorization: authToken,
         },
       }).then(res => {
-        console.log(res.data);
         setBookMarkData(res.data.result);
       });
     } catch (error) {

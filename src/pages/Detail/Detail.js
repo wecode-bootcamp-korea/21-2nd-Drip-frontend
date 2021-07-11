@@ -9,6 +9,7 @@ import Loading from '../../components/Loading/Loading';
 import axios from 'axios';
 import RecommendCard from '../../components/RecommendCard/RecommendCard';
 import Footer from '../../components/Footer/Footer';
+import HeaderSearch from '../../components/HeaderSearch/HeaderSearch';
 
 const Detail = () => {
   const [clicked, setClicked] = useState(false);
@@ -91,6 +92,7 @@ const Detail = () => {
   return (
     <>
       <DetailWrapper>
+        <HeaderSearch />
         <IconWrapper>
           <Icon alt="go back" src="/icon/left-arrow.png" onClick={goBack} />
           <Link to="/main">
@@ -187,15 +189,17 @@ const Detail = () => {
           </RecommendCardList>
         </RecommendWrapper>
         <Footer />
+        <ConfirmWrapper>
+          <Bookmark
+            alt="bookmark"
+            src={
+              clicked ? '/icon/red_bookmark.png' : '/icon/black_bookmark.png'
+            }
+            onClick={handleClick}
+          />
+          <ConfirmButton onClick={handleConfirm}>참여하기</ConfirmButton>
+        </ConfirmWrapper>
       </DetailWrapper>
-      <ConfirmWrapper>
-        <Bookmark
-          alt="bookmark"
-          src={clicked ? '/icon/red_bookmark.png' : '/icon/black_bookmark.png'}
-          onClick={handleClick}
-        />
-        <ConfirmButton onClick={handleConfirm}>참여하기</ConfirmButton>
-      </ConfirmWrapper>
     </>
   );
 };
@@ -218,10 +222,12 @@ const DetailWrapper = styled.section`
 `;
 
 const IconWrapper = styled.section`
-  width: 100%;
+  width: 485px;
   position: absolute;
+  top: 54px;
   padding: 15px 0;
   ${flexSet('row', 'space-between', 'center')};
+  background-color: rgba(255, 255, 255, 0.5);
 `;
 
 const Icon = styled.img`
@@ -233,6 +239,7 @@ const Icon = styled.img`
 
 const DetailImage = styled.img`
   width: 100%;
+  height: 400px;
 `;
 
 const ProductInfoWrapper = styled.section`
@@ -255,7 +262,7 @@ const ProductLimit = styled.p`
 `;
 
 const DivideLine = styled.div`
-  width: 100%;
+  width: 478px;
   border: 4px solid ${props => props.theme.LightGray};
 `;
 
@@ -354,7 +361,7 @@ const RecommendCardList = styled.section`
 `;
 
 const ConfirmWrapper = styled.section`
-  width: 100%;
+  width: 485px;
   height: 80px;
   position: fixed;
   bottom: 0;
