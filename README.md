@@ -1,4 +1,5 @@
-![스크린샷 2021-06-20 오후 3 56 59](https://user-images.githubusercontent.com/73716178/122665086-3a8b0180-d1e0-11eb-8ac0-064b0fcfa6ab.png)
+<img width="486" alt="DRIP_메인페이지" src="https://user-images.githubusercontent.com/67620484/125184605-288a0500-e25a-11eb-9d49-0c802de12536.png">
+
 
 # DRIP front-end team 입니다!
 
@@ -15,37 +16,41 @@
 
 ---
 
-**##**# [소셜 로그인 페이지]
+### [소셜 로그인 페이지]
 
-![소셜 로그인](https://user-images.githubusercontent.com/73716178/122664543-17128780-d1dd-11eb-8b9d-5ab11fa72bec.gif)
+![DRIP_로그인](https://user-images.githubusercontent.com/67620484/125184628-5707e000-e25a-11eb-9e35-19c65d68c998.gif)
 
 ### [메인 페이지]
 
-![메인](https://user-images.githubusercontent.com/73716178/122664783-61e0cf00-d1de-11eb-8fbc-4491bee09b18.gif)
+![DRIP_메인](https://user-images.githubusercontent.com/67620484/125184638-730b8180-e25a-11eb-98b2-d7b9ca6fc59e.gif)
 
-### [메뉴 페이지]
+### [하위 카테고리 페이지]
 
-![메뉴](https://user-images.githubusercontent.com/73716178/122664783-61e0cf00-d1de-11eb-8fbc-4491bee09b18.gif)
+![DRIP_하위카테고리](https://user-images.githubusercontent.com/67620484/125184737-3f7d2700-e25b-11eb-9cf0-73d3f152f6ec.gif)
 
 ### [제품 상세 페이지]
 
-![제품상세](https://user-images.githubusercontent.com/73716178/122664656-af107100-d1dd-11eb-8997-97fb06401656.gif)
+![DRIP_상세페이지](https://user-images.githubusercontent.com/67620484/125184669-a3532000-e25a-11eb-8639-ecb6c9629a83.gif)
+
+### [주문 페이지]
+
+![DRIP_주문](https://user-images.githubusercontent.com/67620484/125184932-a64f1000-e25c-11eb-9f22-5e9d5cfc840a.gif)
 
 ### [찜 페이지]
 
-![찜](https://user-images.githubusercontent.com/73716178/122664658-b46dbb80-d1dd-11eb-966e-baadd6be4c96.gif)
+
 
 ### [마이 페이지]
 
-![마이페이지](https://user-images.githubusercontent.com/73716178/122664783-61e0cf00-d1de-11eb-8fbc-4491bee09b18.gif)
+
 
 ### [검색 페이지]
 
-![검색](https://user-images.githubusercontent.com/73716178/122664783-61e0cf00-d1de-11eb-8fbc-4491bee09b18.gif)
+![DRIP_검색](https://user-images.githubusercontent.com/67620484/125184676-b4039600-e25a-11eb-9af9-cb0deedcca0e.gif)
 
 ### [후기 페이지]
 
-![후기](https://user-images.githubusercontent.com/73716178/122664783-61e0cf00-d1de-11eb-8fbc-4491bee09b18.gif)
+
 
 ### Drip 유튜브 링크
 
