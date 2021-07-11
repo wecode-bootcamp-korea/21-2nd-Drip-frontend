@@ -1,6 +1,5 @@
 <img width="486" alt="DRIP_메인페이지" src="https://user-images.githubusercontent.com/67620484/125184605-288a0500-e25a-11eb-9d49-0c802de12536.png">
 
-
 # DRIP front-end team 입니다!
 
 다양한 체험을 제공하는 [Frip](https://www.frip.com)을 모티브로 한 프로젝트
@@ -38,11 +37,11 @@
 
 ### [찜 페이지]
 
-
+![DRIP_찜](https://github.com/wecode-bootcamp-korea/21-2nd-Drip-frontend/blob/master/public/Review/Images/DRIP_%EB%A7%88%EC%9D%B4%ED%8E%98%EC%9D%B4%EC%A7%80.gif)
 
 ### [마이 페이지]
 
-
+![DRIP_마이페이지](https://github.com/wecode-bootcamp-korea/21-2nd-Drip-frontend/blob/master/public/Review/Images/DRIP_%EB%A7%88%EC%9D%B4%ED%8E%98%EC%9D%B4%EC%A7%80.gif)
 
 ### [검색 페이지]
 
@@ -50,7 +49,7 @@
 
 ### [후기 페이지]
 
-
+![DRIP_후기](https://github.com/wecode-bootcamp-korea/21-2nd-Drip-frontend/blob/master/public/Review/Images/DRIP_%EB%A7%88%EC%9D%B4%ED%8E%98%EC%9D%B4%EC%A7%80.gif)
 
 ### Drip 유튜브 링크
 
